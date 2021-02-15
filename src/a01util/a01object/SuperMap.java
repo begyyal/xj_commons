@@ -19,6 +19,8 @@ public class SuperMap<K, V>
         extends
         HashMap<K, V> {
 
+    private static final long serialVersionUID = 1L;
+
     protected SuperMap() {
         super();
     }

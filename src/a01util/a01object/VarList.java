@@ -16,6 +16,8 @@ public class VarList
         extends
         SuperList<Object> {
 
+    private static final long serialVersionUID = 1L;
+
     private VarList() {
         super();
     }

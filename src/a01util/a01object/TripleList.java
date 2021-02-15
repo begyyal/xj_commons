@@ -19,6 +19,8 @@ public class TripleList<V1, V2, V3>
         extends
         SuperList<Triple<V1, V2, V3>> {
 
+    private static final long serialVersionUID = 1L;
+
     protected TripleList() {
         super();
     }
@@ -103,7 +105,9 @@ public class TripleList<V1, V2, V3>
             extends
             TripleList<V1, V2, V3> {
 
-        private ImmutableTripleList(SuperList<Triple<V1, V2, V3>> c) {
+	private static final long serialVersionUID = 1L;
+
+	private ImmutableTripleList(SuperList<Triple<V1, V2, V3>> c) {
             super(c);
         }
 

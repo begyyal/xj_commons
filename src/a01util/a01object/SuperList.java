@@ -27,6 +27,8 @@ public class SuperList<V>
         extends
         ArrayList<V> {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * 要素数上限。本変数へ値の指定がある場合、原則として追加操作後に上限を超過しないことが保証される。<br>
      * ここでの例外は、破壊的な継承実装や本機構がスレッドセーフでないことを指す。
@@ -375,7 +377,9 @@ public class SuperList<V>
             extends
             SuperList<V> {
 
-        private ImmutableSuperList(SuperList<V> base) {
+	private static final long serialVersionUID = 1L;
+
+	private ImmutableSuperList(SuperList<V> base) {
             super(base);
         }
 

@@ -424,7 +424,8 @@ public class HtmlParser {
             return value;
         }
 
-        private class UnfinishedStatement
+        @SuppressWarnings("serial")
+	private class UnfinishedStatement
                 extends
                 Exception {
             UnfinishedStatement() {

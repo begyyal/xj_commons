@@ -21,6 +21,8 @@ public class PairList<V1, V2>
         extends
         SuperList<Pair<V1, V2>> {
 
+    private static final long serialVersionUID = 1L;
+
     protected PairList() {
         super();
     }
@@ -111,7 +113,9 @@ public class PairList<V1, V2>
             extends
             PairList<V1, V2> {
 
-        private ImmutablePairList(Collection<Pair<V1, V2>> c) {
+	private static final long serialVersionUID = 1L;
+
+	private ImmutablePairList(Collection<Pair<V1, V2>> c) {
             super(c);
         }
 
