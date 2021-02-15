@@ -1,0 +1,9 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+dependencies {
+	compile files(
+		'resource/jar/commons-collections4-4.1.jar',
+		'resource/jar/commons-lang3-3.7.jar',
+		'resource/jar/guava-19.0.jar')
+}
