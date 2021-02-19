@@ -101,7 +101,7 @@ public class SuperList<V>
      */
     @Override
     public boolean add(V v) {
-
+	
         if (thresholdSize == -1 || size() < thresholdSize)
             return super.add(v);
         else if (squeezeFunc == null)
@@ -314,7 +314,7 @@ public class SuperList<V>
         if (focus != -1)
             remove(focus);
     }
-
+    
     /**
      * {@link #focus}が当たっている要素を削除し、実行時フォーカスの次のインデックス要素を取得する。<br>
      * ただし、削除処理に伴い実行時フォーカス以降のインデックスが1ずつ減算されるため、<br>
@@ -367,6 +367,12 @@ public class SuperList<V>
             subList(size, size()).clear();
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public V[] toArray() {
+	return (V[])super.toArray();
+    }
+    
     /**
      * 変更操作が不可能なコピーを返却する。(ビューではない)
      */
