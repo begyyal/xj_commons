@@ -2,6 +2,8 @@ package begyyal.commons.util.matrix;
 
 import java.util.stream.IntStream;
 
+import begyyal.commons.util.math.SuperMath;
+
 public class MatrixResolver {
 
     /**
@@ -22,5 +24,23 @@ public class MatrixResolver {
 		    .map(i -> -i)
 		    .sorted()
 		    .map(i -> -i);
+    }
+    
+    /**
+     * 引数の大きさ以下でかつマトリクスの格子に合致するベクトルの集合を取得する。
+     * 
+     * @param vector 
+     * @return　ベクトルの集合
+     */
+    public static Vector[] decompose(Vector vector) {
+	
+	int gcd = SuperMath.gcd(vector.x(), vector.y());
+	int xFactor = vector.x() / gcd;
+	int yFactor = vector.y() / gcd;
+	var result = new Vector[gcd];
+	for (int i = 1; i <= gcd; i++)
+	    result[i - 1] = new Vector(i * xFactor, i * yFactor);
+	
+	return result;
     }
 }
