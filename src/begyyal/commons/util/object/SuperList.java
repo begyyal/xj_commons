@@ -136,7 +136,7 @@ public class SuperList<V>
     }
 
     /**
-     * 対象の要素全てを{@link ArrayList#addAll(Object) 追加}する。<br>
+     * 対象の要素全てを{@link ArrayList#addAll(Collection) 追加}する。<br>
      * 以下を満たす場合、追加対象を上限内に収まるようにトリムした形で追加する。<br>
      * 1 - {@link #thresholdSize 要素数上限}が設定済み<br>
      * 2 - {@link #squeezeFunc 絞り込み関数}が未設定<br>
@@ -173,6 +173,7 @@ public class SuperList<V>
     /**
      * 対象の要素全てを{@link #add(Object) 追加}する。
      *
+     * @param vArray 対象要素の配列
      * @return 追加が全て成功した場合にtrue
      */
     @SuppressWarnings("unchecked")
@@ -380,48 +381,93 @@ public class SuperList<V>
         return new ImmutableSuperList<V>(this);
     }
 
-    private static class ImmutableSuperList<V>
+    public static class ImmutableSuperList<V>
             extends
             SuperList<V> {
 
 	private static final long serialVersionUID = 1L;
 
-	private ImmutableSuperList(SuperList<V> base) {
+	private ImmutableSuperList(List<V> base) {
             super(base);
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public V set(int index, V v) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated	
         public V remove(int index) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public boolean add(V v) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public boolean addAll(Collection<? extends V> v) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public boolean removeIf(Predicate<? super V> filter) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public void sort(Comparator<? super V> c) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public void updateThresholdSize(int size) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public void ensureCapacity(int minCapacity) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public void trimToSize() {
             throw new UnsupportedOperationException();
         }
@@ -451,7 +497,7 @@ public class SuperList<V>
         /**
          * 指定した数値を要素数の上限とし、<b>上限を超過する追加操作を内部的に行わない</b>リストを生成する。<br>
          *
-         * @param {@link #thresholdSize}
+         * @param　thresholdSize {@link #thresholdSize}
          */
         public static <V> SuperList<V> of(int thresholdSize) {
             return new SuperList<V>(thresholdSize, null);
@@ -461,8 +507,8 @@ public class SuperList<V>
          * 指定した数値を要素数の上限とし、<b>上限を超過しない追加操作を行う</b>リストを生成する。<br>
          * 諸追加操作での挙動は、一度追加操作を施した後に{@link #squeezeFunc}を用いて要素数を上限まで削減させるものとなる。
          *
-         * @param {@link #thresholdSize}
-         * @param {@link #squeezeFunc}
+         * @param　thresholdSize {@link #thresholdSize}
+         * @param　squeezeFunc {@link #squeezeFunc}
          */
         public static <V> SuperList<V>
                 of(int thresholdSize, Function<SuperList<V>, V> squeezeFunc) {
@@ -472,6 +518,11 @@ public class SuperList<V>
         @SafeVarargs
         public static <V> SuperList<V> of(V... values) {
             return new SuperList<V>(Arrays.asList(values));
+        }
+        
+        @SafeVarargs
+        public static <V> ImmutableSuperList<V> immutableOf(V... values) {
+            return new ImmutableSuperList<V>(Arrays.asList(values));
         }
 
         public static <T> Collector<T, ?, SuperList<T>> collect() {

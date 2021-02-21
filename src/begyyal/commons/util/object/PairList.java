@@ -109,7 +109,7 @@ public class PairList<V1, V2>
         return new ImmutablePairList<V1, V2>(this);
     }
 
-    private static class ImmutablePairList<V1, V2>
+    public static class ImmutablePairList<V1, V2>
             extends
             PairList<V1, V2> {
 
@@ -119,38 +119,83 @@ public class PairList<V1, V2>
             super(c);
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public Pair<V1, V2> set(int index, Pair<V1, V2> v) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public Pair<V1, V2> remove(int index) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public boolean add(Pair<V1, V2> v) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public boolean addAll(Collection<? extends Pair<V1, V2>> v) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public boolean removeIf(Predicate<? super Pair<V1, V2>> filter) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public void sort(Comparator<? super Pair<V1, V2>> c) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public void updateThresholdSize(int size) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public void ensureCapacity(int minCapacity) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public void trimToSize() {
             throw new UnsupportedOperationException();
         }

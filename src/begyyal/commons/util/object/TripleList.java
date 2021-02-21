@@ -101,7 +101,7 @@ public class TripleList<V1, V2, V3>
         return new ImmutableTripleList<V1, V2, V3>(this);
     }
 
-    private static class ImmutableTripleList<V1, V2, V3>
+    public static class ImmutableTripleList<V1, V2, V3>
             extends
             TripleList<V1, V2, V3> {
 
@@ -111,38 +111,83 @@ public class TripleList<V1, V2, V3>
             super(c);
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public Triple<V1, V2, V3> set(int index, Triple<V1, V2, V3> v) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public Triple<V1, V2, V3> remove(int index) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public boolean add(Triple<V1, V2, V3> v) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public boolean addAll(Collection<? extends Triple<V1, V2, V3>> v) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public boolean removeIf(Predicate<? super Triple<V1, V2, V3>> filter) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public void sort(Comparator<? super Triple<V1, V2, V3>> c) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public void updateThresholdSize(int size) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public void ensureCapacity(int minCapacity) {
             throw new UnsupportedOperationException();
         }
 
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
         public void trimToSize() {
             throw new UnsupportedOperationException();
         }
