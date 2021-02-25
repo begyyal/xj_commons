@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.base.Objects;
 
+import begyyal.commons.util.object.SuperMap.SuperMapGen;
+
 /**
  * 要素を{@link Pair ペア}で保持する{@link SuperList}。<br>
  * インスタンス生成は{@link PairListGen}にて実行が可能。
@@ -102,6 +104,14 @@ public class PairList<V1, V2>
                 .collect(SuperListGen.collect());
     }
 
+    public SuperMap<V1, SuperList<V2>> toMap(){
+	var map = SuperMapGen.<V1, SuperList<V2>>newi();
+	for(var p : this.toArray())
+	    map.compute(p.getKey(), 
+		(k, v) -> v == null ? SuperListGen.of(p.getValue()) : v.append(p.getValue()));
+	return map;
+    }
+    
     /**
      * @see SuperList#createImmutableClone()
      */
