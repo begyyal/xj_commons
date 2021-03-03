@@ -387,7 +387,7 @@ public class SuperList<V>
 
 	private static final long serialVersionUID = 1L;
 
-	private ImmutableSuperList(List<V> base) {
+	private ImmutableSuperList(Collection<? extends V> base) {
             super(base);
         }
 
@@ -475,15 +475,15 @@ public class SuperList<V>
 
     public static class SuperListGen {
 
-        @SuppressWarnings("rawtypes")
-        private static final SuperList empty = of(Collections.emptyList());
+        @SuppressWarnings({ "rawtypes", "unchecked" })
+        private static final ImmutableSuperList empty = new ImmutableSuperList(Collections.emptyList());
 
         private SuperListGen() {
         }
 
         @SuppressWarnings("unchecked")
-        public static final <V> SuperList<V> empty() {
-            return (SuperList<V>) empty;
+        public static final <V> ImmutableSuperList<V> empty() {
+            return (ImmutableSuperList<V>) empty;
         }
 
         public static <V> SuperList<V> newi() {
@@ -525,6 +525,10 @@ public class SuperList<V>
             return new ImmutableSuperList<V>(Arrays.asList(values));
         }
 
+        public static <V> ImmutableSuperList<V> immutableOf(Collection<? extends V> c) {
+            return new ImmutableSuperList<V>(c);
+        }
+        
         public static <T> Collector<T, ?, SuperList<T>> collect() {
             return Collectors.toCollection(SuperList::new);
         }
