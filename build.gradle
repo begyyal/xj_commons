@@ -1,5 +1,13 @@
+apply plugin: 'application'
 apply plugin: 'java'
 apply plugin: 'eclipse'
+
+sourceCompatibility = '15'
+targetCompatibility = '15'
+
+repositories {
+	mavenCentral()
+}
 
 dependencies {
 	compile files(
