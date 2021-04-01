@@ -34,7 +34,7 @@ public class MatrixResolver {
      */
     public static Vector[] decompose(Vector vector) {
 	
-	int gcd = SuperMath.gcd(vector.x(), vector.y());
+	int gcd = Math.abs(SuperMath.gcd(vector.x(), vector.y()));
 	int xFactor = vector.x() / gcd;
 	int yFactor = vector.y() / gcd;
 	var result = new Vector[gcd];
