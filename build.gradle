@@ -1,4 +1,3 @@
-apply plugin: 'application'
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
@@ -10,8 +9,25 @@ repositories {
 }
 
 dependencies {
-	compile files(
-		'resource/jar/commons-collections4-4.1.jar',
-		'resource/jar/commons-lang3-3.7.jar',
-		'resource/jar/guava-19.0.jar')
+	implementation files(
+		'jar/commons-collections4-4.1.jar',
+		'jar/commons-lang3-3.7.jar',
+		'jar/guava-19.0.jar')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs.add('--enable-preview')
+}
+
+jar {
+    from configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
 }
