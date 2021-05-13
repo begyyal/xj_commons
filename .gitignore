@@ -3,3 +3,6 @@ doc/
 
 .classpath
 .gradle
+
+test/draft.java
+

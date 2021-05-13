@@ -367,12 +367,6 @@ public class SuperList<V>
         if (size < size())
             subList(size, size()).clear();
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public V[] toArray() {
-	return (V[])super.toArray();
-    }
     
     /**
      * 変更操作が不可能なコピーを返却する。(ビューではない)
