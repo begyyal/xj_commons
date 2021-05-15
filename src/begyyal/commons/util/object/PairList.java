@@ -111,6 +111,10 @@ public class PairList<V1, V2>
 	return map;
     }
 
+    public boolean contains(V1 a, V2 b) {
+	return this.anyMatch(p -> Objects.equal(p.getLeft(), a) && Objects.equal(p.getRight(), b));
+    }
+
     /**
      * @see SuperList#createImmutableClone()
      */
