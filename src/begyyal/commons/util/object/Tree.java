@@ -1,5 +1,6 @@
 package begyyal.commons.util.object;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -43,11 +44,11 @@ public class Tree<T> {
     }
 
     public Set<Tree<T>> getChildren() {
-	return this.children;
+	return Collections.unmodifiableSet(this.children);
     }
 
     public void grafting(Tree<T> child) {
-	this.children.add(child);
+	this.children.add(new Tree<T>(child.value, this, Sets.newHashSet(child.children)));
     }
 
     public void compound(List<T> target) {
