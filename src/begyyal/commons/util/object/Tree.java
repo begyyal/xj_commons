@@ -3,7 +3,6 @@ package begyyal.commons.util.object;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Predicate;
 
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -13,28 +12,38 @@ import com.google.common.collect.Sets;
 public class Tree<T> {
 
     private final T value;
+    private final Tree<T> parent;
     private final Set<Tree<T>> children;
 
-    private Tree(T v, Set<Tree<T>> children) {
+    private Tree(T v, Tree<T> parent, Set<Tree<T>> children) {
 	Objects.requireNonNull(v);
 	this.value = v;
+	this.parent = parent;
 	this.children = children;
     }
 
-    private List<Tree<T>> flat() {
+    public List<Tree<T>> flat() {
 	var results = Lists.<Tree<T>>newArrayList();
-	recursiveForFlat(results);
+	recursive4flat(results);
 	return results;
     }
 
-    private void recursiveForFlat(List<Tree<T>> results) {
+    private void recursive4flat(List<Tree<T>> results) {
 	results.add(this);
 	for (var c : children)
-	    c.recursiveForFlat(results);
+	    c.recursive4flat(results);
     }
 
     public T getValue() {
 	return value;
+    }
+
+    public Tree<T> getParent() {
+	return this.parent;
+    }
+
+    public Set<Tree<T>> getChildren() {
+	return this.children;
     }
 
     public void grafting(Tree<T> child) {
@@ -58,15 +67,19 @@ public class Tree<T> {
     }
 
     public void branch(T newv) {
-	this.children.add(newi(newv));
+	this.children.add(newi(newv, this));
     }
 
-    public void grow(T newv, Predicate<Tree<T>> p) {
-	this.flat().stream().filter(p).forEach(t -> t.children.add(newi(newv)));
+    public int getDepth() {
+	return this.recursive4getDepth(0);
     }
 
-    public static <V> Tree<V> newi(V v) {
-	return new Tree<V>(v, Sets.newHashSet());
+    private int recursive4getDepth(int depth) {
+	return this.parent == null ? depth : this.parent.recursive4getDepth(depth + 1);
+    }
+
+    public static <V> Tree<V> newi(V v, Tree<V> parent) {
+	return new Tree<V>(v, parent, Sets.newHashSet());
     }
 
     public static <V> Tree<V> newi(List<V> listedV) {
@@ -76,7 +89,7 @@ public class Tree<T> {
 
 	Tree<V> result = null, parent = null;
 	for (var v : listedV) {
-	    var current = newi(v);
+	    var current = newi(v, parent);
 	    if (parent != null)
 		parent.grafting(current);
 	    else
