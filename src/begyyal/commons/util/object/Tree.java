@@ -7,8 +7,9 @@ import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+
+import begyyal.commons.util.object.SuperList.SuperListGen;
 
 public class Tree<T> {
 
@@ -23,16 +24,23 @@ public class Tree<T> {
 	this.children = children;
     }
 
-    public List<Tree<T>> flat() {
-	var results = Lists.<Tree<T>>newArrayList();
-	recursive4flat(results);
+    public SuperList<Tree<T>> flat() {
+	var results = SuperListGen.<Tree<T>>newi();
+	recursive4flat(results, false);
 	return results;
     }
 
-    private void recursive4flat(List<Tree<T>> results) {
-	results.add(this);
+    public SuperList<Tree<T>> collectTips() {
+	var results = SuperListGen.<Tree<T>>newi();
+	recursive4flat(results, true);
+	return results;
+    }
+
+    private void recursive4flat(List<Tree<T>> results, boolean onlyTips) {
+	if (!onlyTips || CollectionUtils.isEmpty(children))
+	    results.add(this);
 	for (var c : children)
-	    c.recursive4flat(results);
+	    c.recursive4flat(results, onlyTips);
     }
 
     public T getValue() {
