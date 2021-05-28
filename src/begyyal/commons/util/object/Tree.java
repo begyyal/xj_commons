@@ -55,10 +55,6 @@ public class Tree<T> {
 	return Collections.unmodifiableSet(this.children);
     }
 
-    public void grafting(Tree<T> child) {
-	this.children.add(new Tree<T>(child.value, this, Sets.newHashSet(child.children)));
-    }
-
     public void compound(List<T> target) {
 
 	if (CollectionUtils.isEmpty(target))
@@ -70,7 +66,7 @@ public class Tree<T> {
 		child = c;
 
 	if (child == null) {
-	    this.grafting(newi(target));
+	    this.children.add(convert(target, this));
 	} else if (target.size() > 1)
 	    child.compound(target.subList(1, target.size()));
     }
@@ -91,16 +87,20 @@ public class Tree<T> {
 	return new Tree<V>(v, parent, Sets.newHashSet());
     }
 
-    public static <V> Tree<V> newi(List<V> listedV) {
+    public static <V> Tree<V> convert(List<V> listedV) {
+	return convert(listedV, null);
+    }
+
+    public static <V> Tree<V> convert(List<V> listedV, Tree<V> parent) {
 
 	if (CollectionUtils.isEmpty(listedV))
 	    throw new IllegalArgumentException("The listed values must be not empty.");
 
-	Tree<V> result = null, parent = null;
+	Tree<V> result = null;
 	for (var v : listedV) {
 	    var current = newi(v, parent);
 	    if (parent != null)
-		parent.grafting(current);
+		parent.children.add(current);
 	    else
 		result = current;
 	    parent = current;
