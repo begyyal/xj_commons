@@ -62,7 +62,7 @@ public class Tree<T> {
 
 	Tree<T> child = null;
 	for (var c : children)
-	    if (c.equals(target.get(0)))
+	    if (c.getValue().equals(target.get(0)))
 		child = c;
 
 	if (child == null) {
@@ -101,7 +101,7 @@ public class Tree<T> {
 	    var current = newi(v, parent);
 	    if (parent != null)
 		parent.children.add(current);
-	    else
+	    if (result == null)
 		result = current;
 	    parent = current;
 	}
