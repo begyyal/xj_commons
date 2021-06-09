@@ -44,9 +44,6 @@ public class SuperList<V>
      */
     protected Function<SuperList<V>, V> squeezeFunc;
 
-    /**
-     * {@link java.util.Iterator}ライクな挙動を再現するための内部インデックス。初期値は -1。
-     */
     protected int focus = -1;
 
     protected SuperList() {
