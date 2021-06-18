@@ -94,7 +94,7 @@ public class Tree<T> {
     public static <V> Tree<V> convert(List<V> listedV, Tree<V> parent) {
 
 	if (CollectionUtils.isEmpty(listedV))
-	    throw new IllegalArgumentException("The listed values must be not empty.");
+	    throw new IllegalArgumentException("The listed values must not be empty.");
 
 	Tree<V> result = null;
 	for (var v : listedV) {
