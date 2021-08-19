@@ -34,12 +34,12 @@ public class MatrixResolver {
      */
     public static Vector[] decompose(Vector vector) {
 	
-	int gcd = Math.abs(SuperMath.gcd(vector.x(), vector.y()));
-	int xFactor = vector.x() / gcd;
-	int yFactor = vector.y() / gcd;
+	int gcd = Math.abs(SuperMath.gcd(vector.x, vector.y));
+	int xFactor = vector.x / gcd;
+	int yFactor = vector.y / gcd;
 	var result = new Vector[gcd];
 	for (int i = 1; i <= gcd; i++)
-	    result[i - 1] = new Vector(i * xFactor, i * yFactor);
+	    result[i - 1] = Vector.newi(i * xFactor, i * yFactor);
 	
 	return result;
     }
