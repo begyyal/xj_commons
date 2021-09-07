@@ -1,15 +1,19 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'java-library'
 
-sourceCompatibility = '15'
-targetCompatibility = '15'
+// repositories {
+// 	mavenCentral()
+// }
 
-repositories {
-	mavenCentral()
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(15)
+    }
 }
 
 dependencies {
-	implementation files(
+	api files(
 		'jar/commons-collections4-4.1.jar',
 		'jar/commons-lang3-3.7.jar',
 		'jar/guava-19.0.jar')
@@ -20,14 +24,49 @@ sourceSets {
         java {
             srcDir 'src'
         }
+        resources {
+            srcDir 'resources'
+        }
     }
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
-    options.compilerArgs.add('--enable-preview')
 }
 
+delete('resources/META-INF/')
 jar {
-    from configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    from configurations.compileClasspath.collect{ it.isDirectory() ? it : zipTreeByCustom(it) }
+}
+
+FileTree zipTreeByCustom(File f){
+
+	def layerArr = getLayerArr(f.toString())
+    def plainKey = layerArr[layerArr.length-1]
+    def splittedKey = plainKey.split('\\.'), keyStr = splittedKey[0]
+    if(splittedKey.length != 1){
+        def keyLength = plainKey.length() -1 -splittedKey[splittedKey.length-1].length()
+	    keyStr = plainKey.substring(0, keyLength)
+    }
+
+	def t = zipTree(f)
+    def meta = t.matching{ include 'META-INF/**' }
+    def classes = t.matching{ exclude 'META-INF/**' }
+
+    def pjdirLayerLength = getLayerArr(getProjectDir().toString()).length
+    def metainfLayers = Arrays.copyOfRange(getLayerArr(meta.iterator().next().toString()), pjdirLayerLength, pjdirLayerLength + 5)
+    def metainfRelPath = String.join('/', metainfLayers)
+    def newMetainfRelPath =  'resources/META-INF/' + keyStr
+
+    copy {
+        into newMetainfRelPath
+        from metainfRelPath
+    }
+
+	return classes
+}
+
+String[] getLayerArr(String path){
+    def isWin = File.separator == '\\'
+	return path.split(isWin ? '\\\\' : File.separator)
 }
