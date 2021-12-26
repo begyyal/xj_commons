@@ -25,8 +25,8 @@ import begyyal.commons.util.object.TripleList.TripleListGen;
  * @author ikkei
  */
 public class SuperList<V>
-        extends
-        ArrayList<V> {
+	extends
+	ArrayList<V> {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,24 +47,24 @@ public class SuperList<V>
     protected int focus = -1;
 
     protected SuperList() {
-        super();
+	super();
     }
 
     protected SuperList(Collection<? extends V> c) {
-        super(c);
+	super(c);
     }
 
     protected SuperList(SuperList<V> c) {
-        super(c);
-        this.thresholdSize = c.thresholdSize;
-        this.squeezeFunc = c.squeezeFunc;
-        this.focus = c.focus;
+	super(c);
+	this.thresholdSize = c.thresholdSize;
+	this.squeezeFunc = c.squeezeFunc;
+	this.focus = c.focus;
     }
 
     protected SuperList(int capa, Function<SuperList<V>, V> squeezeFunc) {
-        super(capa);
-        this.thresholdSize = capa;
-        this.squeezeFunc = squeezeFunc;
+	super(capa);
+	this.thresholdSize = capa;
+	this.squeezeFunc = squeezeFunc;
     }
 
     /**
@@ -74,8 +74,8 @@ public class SuperList<V>
      */
     @Override
     public V get(int index) {
-        return size() <= index || size() < -(index - 1) ? null
-                : index < 0 ? super.get(size() - 1 + index) : super.get(index);
+	return size() <= index || size() < -(index - 1) ? null
+		: index < 0 ? super.get(size() - 1 + index) : super.get(index);
     }
 
     /**
@@ -85,8 +85,8 @@ public class SuperList<V>
      */
     @Override
     public V remove(int index) {
-        return size() <= index || size() < -(index - 1) ? null
-                : index < 0 ? super.remove(size() - 1 + index) : super.remove(index);
+	return size() <= index || size() < -(index - 1) ? null
+		: index < 0 ? super.remove(size() - 1 + index) : super.remove(index);
     }
 
     /**
@@ -98,38 +98,38 @@ public class SuperList<V>
      */
     @Override
     public boolean add(V v) {
-	
-        if (thresholdSize == -1 || size() < thresholdSize)
-            return super.add(v);
-        else if (squeezeFunc == null)
-            return false;
 
-        boolean result = super.add(v);
-        V squeeze = squeezeFunc.apply(this);
-        remove(squeeze);
+	if (thresholdSize == -1 || size() < thresholdSize)
+	    return super.add(v);
+	else if (squeezeFunc == null)
+	    return false;
 
-        if (thresholdSize < size()) {
-            removeTip();
-            return false;
-        }
+	boolean result = super.add(v);
+	V squeeze = squeezeFunc.apply(this);
+	remove(squeeze);
 
-        return result && !Objects.equal(v, squeeze);
+	if (thresholdSize < size()) {
+	    removeTip();
+	    return false;
+	}
+
+	return result && !Objects.equal(v, squeeze);
     }
 
     /**
      * 要素を{@link #add(Object) 追加}してリストを返却する。
      */
     public SuperList<V> append(V v) {
-        this.add(v);
-        return this;
+	this.add(v);
+	return this;
     }
 
     /**
      * 指定したインデックスへ要素を{@link #add(Object) 追加}してリストを返却する。
      */
     public SuperList<V> append(int index, V v) {
-        this.add(index, v);
-        return this;
+	this.add(index, v);
+	return this;
     }
 
     /**
@@ -146,25 +146,25 @@ public class SuperList<V>
     @Override
     public boolean addAll(Collection<? extends V> v) {
 
-        if (thresholdSize == -1 || size() + v.size() <= thresholdSize)
-            return super.addAll(v);
-        else if (squeezeFunc == null)
-            return !isFull() && super.addAll(
-                    (v instanceof List ? (List<? extends V>) v : Lists.newArrayList(v))
-                            .subList(0, thresholdSize - size()));
+	if (thresholdSize == -1 || size() + v.size() <= thresholdSize)
+	    return super.addAll(v);
+	else if (squeezeFunc == null)
+	    return !isFull() && super.addAll(
+		(v instanceof List ? (List<? extends V>) v : Lists.newArrayList(v))
+		    .subList(0, thresholdSize - size()));
 
-        boolean result = super.addAll(v);
-        List<V> squeeze = IntStream.range(0, size() - thresholdSize)
-                .mapToObj(i -> squeezeFunc.apply(this))
-                .collect(Collectors.toList());
-        removeAll(squeeze);
+	boolean result = super.addAll(v);
+	List<V> squeeze = IntStream.range(0, size() - thresholdSize)
+	    .mapToObj(i -> squeezeFunc.apply(this))
+	    .collect(Collectors.toList());
+	removeAll(squeeze);
 
-        if (thresholdSize < size()) {
-            subList(thresholdSize, size()).clear();
-            return false;
-        }
+	if (thresholdSize < size()) {
+	    subList(thresholdSize, size()).clear();
+	    return false;
+	}
 
-        return result && !CollectionUtils.containsAny(v, squeeze);
+	return result && !CollectionUtils.containsAny(v, squeeze);
     }
 
     /**
@@ -175,18 +175,18 @@ public class SuperList<V>
      */
     @SuppressWarnings("unchecked")
     public boolean addAll(V... vArray) {
-        boolean result = true;
-        for (V v : vArray)
-            result &= add(v);
-        return result;
+	boolean result = true;
+	for (V v : vArray)
+	    result &= add(v);
+	return result;
     }
 
     /**
      * 対象の要素全てを{@link #addAll(Collection) 追加}し、リストを返却する。
      */
     public SuperList<V> appendAll(Collection<? extends V> v) {
-        addAll(v);
-        return this;
+	addAll(v);
+	return this;
     }
 
     /**
@@ -194,8 +194,8 @@ public class SuperList<V>
      */
     @SuppressWarnings("unchecked")
     public SuperList<V> appendAll(V... vArray) {
-        addAll(vArray);
-        return this;
+	addAll(vArray);
+	return this;
     }
 
     /**
@@ -205,25 +205,25 @@ public class SuperList<V>
      */
     @SuppressWarnings("unchecked")
     public boolean removeAll(V... vArray) {
-        boolean result = true;
-        for (int i = 0; i < vArray.length; i++)
-            if (!remove(vArray[i]))
-                result = false;
-        return result;
+	boolean result = true;
+	for (int i = 0; i < vArray.length; i++)
+	    if (!remove(vArray[i]))
+		result = false;
+	return result;
     }
 
     /**
      * @return 末端の要素
      */
     public V getTip() {
-        return size() == 0 ? null : get(size() - 1);
+	return size() == 0 ? null : get(size() - 1);
     }
 
     /**
      * @return 削除された末端の要素か、リストが空の場合はnull
      */
     public V removeTip() {
-        return size() == 0 ? null : remove(size() - 1);
+	return size() == 0 ? null : remove(size() - 1);
     }
 
     /**
@@ -232,7 +232,7 @@ public class SuperList<V>
      * @return 以前設定されていた末端の要素
      */
     public V setTip(V v) {
-        return set(size() == 0 ? 0 : size() - 1, v);
+	return set(size() == 0 ? 0 : size() - 1, v);
     }
 
     /**
@@ -241,14 +241,14 @@ public class SuperList<V>
      */
     public <V2> PairList<V, V2> zip(List<V2> v2) {
 
-        if (size() == 0 || CollectionUtils.isEmpty(v2))
-            return PairListGen.empty();
+	if (size() == 0 || CollectionUtils.isEmpty(v2))
+	    return PairListGen.empty();
 
-        PairList<V, V2> result = PairListGen.newi();
-        for (int count = 0; count < Math.min(size(), v2.size()); count++)
-            result.add(get(count), v2.get(count));
+	PairList<V, V2> result = PairListGen.newi();
+	for (int count = 0; count < Math.min(size(), v2.size()); count++)
+	    result.add(get(count), v2.get(count));
 
-        return result;
+	return result;
     }
 
     /**
@@ -257,24 +257,22 @@ public class SuperList<V>
      */
     public <V2, V3> TripleList<V, V2, V3> zip(List<V2> v2, List<V3> v3) {
 
-        if (size() == 0 || CollectionUtils.isEmpty(v2) || CollectionUtils.isEmpty(v3))
-            return TripleListGen.empty();
+	if (size() == 0 || CollectionUtils.isEmpty(v2) || CollectionUtils.isEmpty(v3))
+	    return TripleListGen.empty();
 
-        TripleList<V, V2, V3> result = TripleListGen.newi();
-        for (int count = 0;
-                count < Math.min(Math.min(size(), v2.size()), v3.size());
-                count++)
-            result.add(get(count), v2.get(count), v3.get(count));
+	TripleList<V, V2, V3> result = TripleListGen.newi();
+	for (int count = 0; count < Math.min(Math.min(size(), v2.size()), v3.size()); count++)
+	    result.add(get(count), v2.get(count), v3.get(count));
 
-        return result;
+	return result;
     }
 
     public boolean allMatch(Predicate<V> predicate) {
-        return stream().allMatch(predicate);
+	return stream().allMatch(predicate);
     }
 
     public boolean anyMatch(Predicate<V> predicate) {
-        return stream().anyMatch(predicate);
+	return stream().anyMatch(predicate);
     }
 
     /**
@@ -282,10 +280,10 @@ public class SuperList<V>
      */
     @SuppressWarnings("unchecked")
     public boolean containsAll(V... values) {
-        for (V v : values)
-            if (!super.contains(v))
-                return false;
-        return true;
+	for (V v : values)
+	    if (!super.contains(v))
+		return false;
+	return true;
     }
 
     /**
@@ -293,7 +291,7 @@ public class SuperList<V>
      * カーソルに該当する変数として{@link #focus}を参照する。
      */
     public boolean hasNext() {
-        return size() > focus + 1;
+	return size() > focus + 1;
     }
 
     /**
@@ -301,7 +299,7 @@ public class SuperList<V>
      * カーソルに該当する変数として{@link #focus}を参照する。
      */
     public V next() {
-        return hasNext() ? get(++focus) : null;
+	return hasNext() ? get(++focus) : null;
     }
 
     /**
@@ -309,39 +307,39 @@ public class SuperList<V>
      * 初期時はフォーカスが -1 のため一度{@link #next}を実施しないと本処理が有効化されないことに注意。
      */
     public void remove() {
-        if (focus != -1)
-            remove(focus);
+	if (focus != -1)
+	    remove(focus);
     }
-    
+
     /**
      * {@link #focus}が当たっている要素を削除し、実行時フォーカスの次のインデックス要素を取得する。<br>
      * ただし、削除処理に伴い実行時フォーカス以降のインデックスが1ずつ減算されるため、<br>
      * フォーカスのインクリメントを行わず実質的にフォーカスが次の要素へ移ることに注意。
      */
     public V removeAndNext() {
-        remove();
-        return focus != -1 && focus < size() ? get(focus) : null;
+	remove();
+	return focus != -1 && focus < size() ? get(focus) : null;
     }
 
     /**
      * {@link #focus}を -1 へ初期化する。
      */
     public void resetFocus() {
-        focus = -1;
+	focus = -1;
     }
 
     /**
      * @return {@link focus}
      */
     public int getFocusIndex() {
-        return focus;
+	return focus;
     }
 
     /**
      * リストのサイズが{@link #thresholdSize}で指定された要素数上限に達しているかを判別する。
      */
     public boolean isFull() {
-        return thresholdSize == size();
+	return thresholdSize == size();
     }
 
     /**
@@ -352,176 +350,188 @@ public class SuperList<V>
      */
     public void updateThresholdSize(int size) {
 
-        if (size < 0)
-            return;
-        thresholdSize = size;
+	if (size < 0)
+	    return;
+	thresholdSize = size;
 
-        if (size < size() && squeezeFunc != null)
-            removeAll(IntStream.range(0, size() - size)
-                    .mapToObj(i -> squeezeFunc.apply(this))
-                    .collect(Collectors.toList()));
+	if (size < size() && squeezeFunc != null)
+	    removeAll(IntStream.range(0, size() - size)
+		.mapToObj(i -> squeezeFunc.apply(this))
+		.collect(Collectors.toList()));
 
-        if (size < size())
-            subList(size, size()).clear();
+	if (size < size())
+	    subList(size, size()).clear();
     }
-    
+
+    /**
+     * 現在の順序をそのまま逆にして、リストを返却する。(ソートではない)
+     */
+    public SuperList<V> reverse() {
+	int size= this.size();
+	for (int i = size - 1; i >= 0; i--)
+	    this.add(this.get(i));
+	this.removeRange(0, size);
+	return this;
+    }
+
     /**
      * 変更操作が不可能なコピーを返却する。(ビューではない)
      */
     public SuperList<V> createImmutableClone() {
-        return new ImmutableSuperList<V>(this);
+	return new ImmutableSuperList<V>(this);
     }
 
     public static class ImmutableSuperList<V>
-            extends
-            SuperList<V> {
+	    extends
+	    SuperList<V> {
 
 	private static final long serialVersionUID = 1L;
 
 	private ImmutableSuperList(Collection<? extends V> base) {
-            super(base);
-        }
+	    super(base);
+	}
 
 	/**
 	 * !!変更不可!!<br>
 	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
 	 */
 	@Deprecated
-        public V set(int index, V v) {
-            throw new UnsupportedOperationException();
-        }
-
-	/**
-	 * !!変更不可!!<br>
-	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
-	 */
-	@Deprecated	
-        public V remove(int index) {
-            throw new UnsupportedOperationException();
-        }
+	public V set(int index, V v) {
+	    throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * !!変更不可!!<br>
 	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
 	 */
 	@Deprecated
-        public boolean add(V v) {
-            throw new UnsupportedOperationException();
-        }
+	public V remove(int index) {
+	    throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * !!変更不可!!<br>
 	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
 	 */
 	@Deprecated
-        public boolean addAll(Collection<? extends V> v) {
-            throw new UnsupportedOperationException();
-        }
+	public boolean add(V v) {
+	    throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * !!変更不可!!<br>
 	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
 	 */
 	@Deprecated
-        public boolean removeIf(Predicate<? super V> filter) {
-            throw new UnsupportedOperationException();
-        }
+	public boolean addAll(Collection<? extends V> v) {
+	    throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * !!変更不可!!<br>
 	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
 	 */
 	@Deprecated
-        public void sort(Comparator<? super V> c) {
-            throw new UnsupportedOperationException();
-        }
+	public boolean removeIf(Predicate<? super V> filter) {
+	    throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * !!変更不可!!<br>
 	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
 	 */
 	@Deprecated
-        public void updateThresholdSize(int size) {
-            throw new UnsupportedOperationException();
-        }
+	public void sort(Comparator<? super V> c) {
+	    throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * !!変更不可!!<br>
 	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
 	 */
 	@Deprecated
-        public void ensureCapacity(int minCapacity) {
-            throw new UnsupportedOperationException();
-        }
+	public void updateThresholdSize(int size) {
+	    throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * !!変更不可!!<br>
 	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
 	 */
 	@Deprecated
-        public void trimToSize() {
-            throw new UnsupportedOperationException();
-        }
+	public void ensureCapacity(int minCapacity) {
+	    throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * !!変更不可!!<br>
+	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
+	 */
+	@Deprecated
+	public void trimToSize() {
+	    throw new UnsupportedOperationException();
+	}
     }
 
     public static class SuperListGen {
 
-        @SuppressWarnings({ "rawtypes", "unchecked" })
-        private static final ImmutableSuperList empty = new ImmutableSuperList(Collections.emptyList());
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private static final ImmutableSuperList empty = new ImmutableSuperList(
+	    Collections.emptyList());
 
-        private SuperListGen() {
-        }
+	private SuperListGen() {
+	}
 
-        @SuppressWarnings("unchecked")
-        public static final <V> ImmutableSuperList<V> empty() {
-            return (ImmutableSuperList<V>) empty;
-        }
+	@SuppressWarnings("unchecked")
+	public static final <V> ImmutableSuperList<V> empty() {
+	    return (ImmutableSuperList<V>) empty;
+	}
 
-        public static <V> SuperList<V> newi() {
-            return new SuperList<V>();
-        }
+	public static <V> SuperList<V> newi() {
+	    return new SuperList<V>();
+	}
 
-        public static <V> SuperList<V> of(Collection<? extends V> c) {
-            return new SuperList<V>(c);
-        }
+	public static <V> SuperList<V> of(Collection<? extends V> c) {
+	    return new SuperList<V>(c);
+	}
 
-        /**
-         * 指定した数値を要素数の上限とし、<b>上限を超過する追加操作を内部的に行わない</b>リストを生成する。<br>
-         *
-         * @param　thresholdSize {@link #thresholdSize}
-         */
-        public static <V> SuperList<V> of(int thresholdSize) {
-            return new SuperList<V>(thresholdSize, null);
-        }
+	/**
+	 * 指定した数値を要素数の上限とし、<b>上限を超過する追加操作を内部的に行わない</b>リストを生成する。<br>
+	 *
+	 * @param thresholdSize {@link #thresholdSize}
+	 */
+	public static <V> SuperList<V> of(int thresholdSize) {
+	    return new SuperList<V>(thresholdSize, null);
+	}
 
-        /**
-         * 指定した数値を要素数の上限とし、<b>上限を超過しない追加操作を行う</b>リストを生成する。<br>
-         * 諸追加操作での挙動は、一度追加操作を施した後に{@link #squeezeFunc}を用いて要素数を上限まで削減させるものとなる。
-         *
-         * @param　thresholdSize {@link #thresholdSize}
-         * @param　squeezeFunc {@link #squeezeFunc}
-         */
-        public static <V> SuperList<V>
-                of(int thresholdSize, Function<SuperList<V>, V> squeezeFunc) {
-            return new SuperList<V>(thresholdSize, squeezeFunc);
-        }
+	/**
+	 * 指定した数値を要素数の上限とし、<b>上限を超過しない追加操作を行う</b>リストを生成する。<br>
+	 * 諸追加操作での挙動は、一度追加操作を施した後に{@link #squeezeFunc}を用いて要素数を上限まで削減させるものとなる。
+	 *
+	 * @param thresholdSize {@link #thresholdSize}
+	 * @param squeezeFunc {@link #squeezeFunc}
+	 */
+	public static <V> SuperList<V>
+	    of(int thresholdSize, Function<SuperList<V>, V> squeezeFunc) {
+	    return new SuperList<V>(thresholdSize, squeezeFunc);
+	}
 
-        @SafeVarargs
-        public static <V> SuperList<V> of(V... values) {
-            return new SuperList<V>(Arrays.asList(values));
-        }
-        
-        @SafeVarargs
-        public static <V> ImmutableSuperList<V> immutableOf(V... values) {
-            return new ImmutableSuperList<V>(Arrays.asList(values));
-        }
+	@SafeVarargs
+	public static <V> SuperList<V> of(V... values) {
+	    return new SuperList<V>(Arrays.asList(values));
+	}
 
-        public static <V> ImmutableSuperList<V> immutableOf(Collection<? extends V> c) {
-            return new ImmutableSuperList<V>(c);
-        }
-        
-        public static <T> Collector<T, ?, SuperList<T>> collect() {
-            return Collectors.toCollection(SuperList::new);
-        }
+	@SafeVarargs
+	public static <V> ImmutableSuperList<V> immutableOf(V... values) {
+	    return new ImmutableSuperList<V>(Arrays.asList(values));
+	}
+
+	public static <V> ImmutableSuperList<V> immutableOf(Collection<? extends V> c) {
+	    return new ImmutableSuperList<V>(c);
+	}
+
+	public static <T> Collector<T, ?, SuperList<T>> collect() {
+	    return Collectors.toCollection(SuperList::new);
+	}
     }
 }
