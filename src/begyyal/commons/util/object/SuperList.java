@@ -109,7 +109,7 @@ public class SuperList<V>
 	remove(squeeze);
 
 	if (thresholdSize < size()) {
-	    removeTip();
+	    remove(v);
 	    return false;
 	}
 
@@ -364,10 +364,21 @@ public class SuperList<V>
     }
 
     /**
+     * 引数の関数にマッチする最初の要素のインデックスを返却する。<br>
+     * マッチする要素が無い場合は-1を返却する。
+     */
+    public int indexOf(Predicate<V> pred) {
+	for (int i = 0; i < size(); i++)
+	    if (pred.test(get(i)))
+		return i;
+	return -1;
+    }
+
+    /**
      * 現在の順序をそのまま逆にして、リストを返却する。(ソートではない)
      */
     public SuperList<V> reverse() {
-	int size= this.size();
+	int size = this.size();
 	for (int i = size - 1; i >= 0; i--)
 	    this.add(this.get(i));
 	this.removeRange(0, size);
