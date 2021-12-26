@@ -378,10 +378,10 @@ public class SuperList<V>
      * 現在の順序をそのまま逆にして、リストを返却する。(ソートではない)
      */
     public SuperList<V> reverse() {
-	int size = this.size();
+	int size = size();
 	for (int i = size - 1; i >= 0; i--)
-	    this.add(this.get(i));
-	this.removeRange(0, size);
+	    add(get(i));
+	removeRange(0, size);
 	return this;
     }
 
@@ -390,6 +390,27 @@ public class SuperList<V>
      */
     public SuperList<V> createImmutableClone() {
 	return new ImmutableSuperList<V>(this);
+    }
+
+    /**
+     * 指定された範囲のコピーを返却する。(ビューではない)
+     */
+    public SuperList<V> createPartialList(int from, int to) {
+	rangeCheck(from, to, size());
+	var l = new SuperList<V>();
+	for (int i = from; i < to; i++)
+	    l.add(get(i));
+	return l;
+    }
+
+    private static void rangeCheck(int fromIndex, int toIndex, int size) {
+	if (fromIndex < 0)
+	    throw new IndexOutOfBoundsException("fromIndex = " + fromIndex);
+	if (toIndex > size)
+	    throw new IndexOutOfBoundsException("toIndex = " + toIndex);
+	if (fromIndex > toIndex)
+	    throw new IllegalArgumentException(
+		"fromIndex(" + fromIndex + ") > toIndex(" + toIndex + ")");
     }
 
     public static class ImmutableSuperList<V>
