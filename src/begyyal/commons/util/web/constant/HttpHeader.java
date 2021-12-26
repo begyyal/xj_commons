@@ -1,4 +1,4 @@
-package begyyal.commons.util.web.html.constant;
+package begyyal.commons.util.web.constant;
 
 import org.apache.commons.lang3.StringUtils;
 

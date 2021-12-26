@@ -15,9 +15,9 @@ import java.util.zip.GZIPInputStream;
 
 import begyyal.commons.util.object.SuperList;
 import begyyal.commons.util.object.SuperList.SuperListGen;
+import begyyal.commons.util.web.constant.HttpHeader;
 import begyyal.commons.util.web.constant.MimeType;
 import begyyal.commons.util.web.html.HtmlParser;
-import begyyal.commons.util.web.html.constant.HttpHeader;
 import begyyal.commons.util.web.html.object.HtmlObject;
 
 /**
