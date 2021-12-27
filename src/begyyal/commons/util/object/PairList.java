@@ -78,6 +78,16 @@ public class PairList<V1, V2>
 	return super.set(index, Pair.of(v1, v2));
     }
 
+    public Pair<V1, V2> setV1(int index, V1 v1) {
+	var newp = Pair.of(v1, get(index).getRight());
+	return super.set(index, newp);
+    }
+
+    public Pair<V1, V2> setV2(int index, V2 v2) {
+	var newp = Pair.of(get(index).getLeft(), v2);
+	return super.set(index, newp);
+    }
+
     public SuperList<V1> getV1List() {
 	return stream()
 	    .map(p -> p.getLeft())
