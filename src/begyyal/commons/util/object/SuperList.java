@@ -328,6 +328,12 @@ public class SuperList<V>
 	focus = -1;
     }
 
+    public void setFocusIndex(int focus) {
+	if (focus < -1 || focus > size() - 2)
+	    throw new IndexOutOfBoundsException("Focus index must be between -1 and size-2.");
+	this.focus = focus;
+    }
+
     /**
      * @return {@link focus}
      */
