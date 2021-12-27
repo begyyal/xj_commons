@@ -4,8 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * Httpヘッダのプロパティ。
- *
- * @author ikkei
  */
 public enum HttpHeader {
 

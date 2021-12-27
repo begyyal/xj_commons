@@ -9,8 +9,6 @@ import begyyal.commons.util.object.SuperMap.SuperMapGen;
 /**
  * MIMEタイプを列挙したクラス。<br>
  * ※暫定的にHTMLのみ対応
- *
- * @author ikkei
  */
 public enum MimeType {
 
