@@ -329,8 +329,8 @@ public class SuperList<V>
     }
 
     public void setFocusIndex(int focus) {
-	if (focus < -1 || focus > size() - 2)
-	    throw new IndexOutOfBoundsException("Focus index must be between -1 and size-2.");
+	if (focus < -1 || focus > size() - 1)
+	    throw new IndexOutOfBoundsException("Focus index must be between -1 and size-1.");
 	this.focus = focus;
     }
 
