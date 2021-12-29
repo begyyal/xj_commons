@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.tuple.Triple;
 
 import com.google.common.base.Objects;
@@ -14,8 +15,6 @@ import com.google.common.base.Objects;
 /**
  * 要素を{@link Triple トリプル}で保持する{@link SuperList}。<br>
  * インスタンス生成は{@link TripleListGen}にて実行が可能。
- *
- * @author ikkei
  */
 public class TripleList<V1, V2, V3>
 	extends
@@ -76,6 +75,24 @@ public class TripleList<V1, V2, V3>
      */
     public Triple<V1, V2, V3> set(int index, V1 v1, V2 v2, V3 v3) {
 	return super.set(index, Triple.of(v1, v2, v3));
+    }
+
+    public Triple<V1, V2, V3> setV1(int index, V1 v1) {
+	var v = get(index);
+	var newt = Triple.of(v1, v.getMiddle(), v.getRight());
+	return super.set(index, newt);
+    }
+
+    public Triple<V1, V2, V3> setV2(int index, V2 v2) {
+	var v = get(index);
+	var newt = Triple.of(v.getLeft(), v2, v.getRight());
+	return super.set(index, newt);
+    }
+
+    public Triple<V1, V2, V3> setV3(int index, V3 v3) {
+	var v = get(index);
+	var newt = Triple.of(v.getLeft(), v.getMiddle(), v3);
+	return super.set(index, newt);
     }
 
     public SuperList<V1> getV1List() {

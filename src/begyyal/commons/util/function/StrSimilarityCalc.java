@@ -6,8 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * 文字列の近似度合いを求めるユーティリティ。<br>
  * {@link StringUtils#getJaroWinklerDistance}のバグフィックス版。<br>
- *
- * @author ikkei
  */
 public class StrSimilarityCalc {
 

@@ -23,8 +23,6 @@ import begyyal.commons.util.web.html.object.HtmlObject;
 /**
  * 指定されたURLからWEBリソースを取得する。<br>
  * ※暫定的にHTMLのみ対応
- *
- * @author ikkei
  */
 public class WebResourceGetter {
 

@@ -12,8 +12,6 @@ import java.util.stream.Collectors;
 /**
  * 汎用操作および機能が拡張実装された{@link HashMap}。<br>
  * インスタンス生成は{@link SuperMapGen}にて実行が可能。
- *
- * @author ikkei
  */
 public class SuperMap<K, V>
         extends

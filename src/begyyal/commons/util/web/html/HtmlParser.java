@@ -20,8 +20,6 @@ import begyyal.commons.util.web.html.object.HtmlObject.RootHtmlObject;
  * 文字列リソースと{@link HtmlObject}間での変換を行う。<br>
  * 構造検証の細部においては書式毎のdtdやw3cおよびwhatwgが掲げる規格へ準拠するものではない。<br>
  * ※現状タグ省略に未対応のため、とりわけそうした記述がある場合にそのノード以下の構成で変換失敗となりやすい。
- *
- * @author ikkei
  */
 public class HtmlParser {
 

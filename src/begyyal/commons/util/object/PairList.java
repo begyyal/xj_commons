@@ -16,8 +16,6 @@ import begyyal.commons.util.object.SuperMap.SuperMapGen;
 /**
  * 要素を{@link Pair ペア}で保持する{@link SuperList}。<br>
  * インスタンス生成は{@link PairListGen}にて実行が可能。
- *
- * @author ikkei
  */
 public class PairList<V1, V2>
 	extends

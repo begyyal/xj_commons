@@ -2,8 +2,6 @@ package begyyal.commons.util.web.html.constant;
 
 /**
  * HTMLのタグを列挙したクラス。
- *
- * @author ikkei
  */
 public enum HtmlTag {
 

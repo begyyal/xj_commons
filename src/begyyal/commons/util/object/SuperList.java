@@ -21,8 +21,6 @@ import begyyal.commons.util.object.TripleList.TripleListGen;
 /**
  * 汎用操作および機能が拡張実装された{@link ArrayList}。 <br>
  * インスタンス生成は{@link SuperListGen}にて実行が可能。
- *
- * @author ikkei
  */
 public class SuperList<V>
 	extends

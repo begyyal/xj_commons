@@ -5,8 +5,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * スレッドに対する汎用操作をまとめたユーティリティ。
- *
- * @author ikkei
  */
 public class ThreadController {
 

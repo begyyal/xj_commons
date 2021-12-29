@@ -2,8 +2,6 @@ package begyyal.commons.util.object;
 
 /**
  * 汎用操作を追加した参照型のブーリアン。
- *
- * @author ikkei
  */
 public class SuperBool {
 

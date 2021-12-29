@@ -9,8 +9,6 @@ import java.util.stream.Stream;
 /**
  * {@link Object}指定の{@link SuperList}。型指定による諸操作が可能。 <br>
  * インスタンス生成は{@link VarListGen}にて実行が可能。
- *
- * @author ikkei
  */
 public class VarList
         extends

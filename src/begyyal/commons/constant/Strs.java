@@ -4,8 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * 汎用文字定数群。
- *
- * @author ikkei
  */
 public final class Strs {
 

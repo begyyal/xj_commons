@@ -15,8 +15,6 @@ import begyyal.commons.util.object.SuperList.SuperListGen;
 
 /**
  * 無法地帯。
- *
- * @author ikkei
  */
 public class CodeKiller {
 

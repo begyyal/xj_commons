@@ -21,8 +21,6 @@ import begyyal.commons.util.web.html.constant.HtmlTag;
  * DOMライクにHTMLを構造表現したオブジェクト。<br>
  * 原則としてタグ1つ(閉じタグがあれば1対)が本オブジェクト1つで表現される。<br>
  * 開始タグから閉じタグの間で出現するタグを「配下オブジェクト」とし、文字列を「コンテンツ」とする。
- *
- * @author ikkei
  */
 public class HtmlObject
         implements

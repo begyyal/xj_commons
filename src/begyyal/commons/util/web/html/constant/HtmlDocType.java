@@ -2,8 +2,6 @@ package begyyal.commons.util.web.html.constant;
 
 /**
  * 文書型を列挙したクラス。
- *
- * @author ikkei
  */
 public enum HtmlDocType {
 

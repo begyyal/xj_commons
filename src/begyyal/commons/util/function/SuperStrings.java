@@ -9,8 +9,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * Stringに対する汎用操作をまとめたユーティリティ。
- *
- * @author ikkei
  */
 public class SuperStrings {
 

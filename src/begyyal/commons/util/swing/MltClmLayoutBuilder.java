@@ -20,8 +20,6 @@ import begyyal.commons.util.object.SuperList.SuperListGen;
 /**
  * 複数列でコンポーネントを配置するためのユーティリティ。<br>
  * 煩雑な{@link GroupLayout}の設定を当クラスにてとりまとめる。<br>
- *
- * @author ikkei
  */
 public class MltClmLayoutBuilder {
 
