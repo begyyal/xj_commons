@@ -39,7 +39,7 @@ public class MatrixResolver {
 	int yFactor = vector.y / gcd;
 	var result = new Vector[gcd];
 	for (int i = 1; i <= gcd; i++)
-	    result[i - 1] = Vector.newi(i * xFactor, i * yFactor);
+	    result[i - 1] = new Vector(i * xFactor, i * yFactor);
 	
 	return result;
     }

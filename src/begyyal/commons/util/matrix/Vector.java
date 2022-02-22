@@ -6,17 +6,17 @@ public class Vector {
     public final int x;
     public final int y;
 
-    private Vector(int x, int y) {
+    public Vector(int x, int y) {
 	this.x = x;
 	this.y = y;
     }
 
-    public static Vector newi(int x, int y) {
-	return new Vector(x, y);
-    }
-
     public Vector reverse(boolean x, boolean y) {
 	return new Vector(x ? -this.x : this.x, y ? -this.y : this.y);
+    }
+
+    public Vector compound(Vector v) {
+	return new Vector(this.x + v.x, this.y + v.y);
     }
 
     @Override
