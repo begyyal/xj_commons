@@ -1,5 +1,7 @@
 package begyyal.commons.util.matrix;
 
+import java.util.Objects;
+
 // javaのバージョンを上げたらrecordにする
 public class Vector {
 
@@ -25,5 +27,10 @@ public class Vector {
 	    return false;
 	var casted = (Vector) o;
 	return casted.x == this.x && casted.y == this.y;
+    }
+
+    @Override
+    public int hashCode() {
+	return Objects.hash(this.x, this.y);
     }
 }
