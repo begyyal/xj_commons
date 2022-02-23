@@ -5,5 +5,5 @@ build/
 .classpath
 .gradle
 
-test/draft.java
+test/
 
