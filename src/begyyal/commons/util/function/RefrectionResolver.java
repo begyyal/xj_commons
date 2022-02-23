@@ -13,10 +13,7 @@ import com.google.common.collect.Sets;
 import begyyal.commons.util.object.SuperList;
 import begyyal.commons.util.object.SuperList.SuperListGen;
 
-/**
- * 無法地帯。
- */
-public class CodeKiller {
+public class RefrectionResolver {
 
     public static void doMethodThroughAll(
             Class<?> clazz,

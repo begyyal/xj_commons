@@ -1,6 +1,8 @@
-package begyyal.commons.util.matrix;
+package begyyal.commons.util.object;
 
 import java.util.Objects;
+
+import begyyal.commons.util.function.SuperMath;
 
 // javaのバージョンを上げたらrecordにする
 public class Vector {
@@ -19,6 +21,16 @@ public class Vector {
 
     public Vector compound(Vector v) {
 	return new Vector(this.x + v.x, this.y + v.y);
+    }
+
+    public Vector[] decompose() {
+	int gcd = Math.abs(SuperMath.gcd(this.x, this.y));
+	int xFactor = this.x / gcd;
+	int yFactor = this.y / gcd;
+	var result = new Vector[gcd];
+	for (int i = 1; i <= gcd; i++)
+	    result[i - 1] = new Vector(i * xFactor, i * yFactor);
+	return result;
     }
 
     @Override

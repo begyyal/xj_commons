@@ -1,4 +1,4 @@
-package begyyal.commons.util.math;
+package begyyal.commons.util.function;
 
 public class SuperMath {
 
