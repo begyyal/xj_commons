@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 import org.apache.commons.lang3.StringUtils;
 
 import begyyal.commons.constant.Strs;
-import begyyal.commons.util.function.RefrectionResolver;
+import begyyal.commons.util.function.ReflectionResolver;
 import begyyal.commons.util.object.SuperList;
 import begyyal.commons.util.object.SuperList.SuperListGen;
 import begyyal.commons.util.object.SuperMap;
@@ -287,7 +287,7 @@ public class HtmlObject implements Cloneable {
 
     @Override
     public boolean equals(Object o) {
-	HtmlObject casted = RefrectionResolver.cast(HtmlObject.class, o);
+	HtmlObject casted = ReflectionResolver.cast(HtmlObject.class, o);
 	return casted != null
 		&& casted.id == id && properties.equals(casted.properties)
 		&& childrenAndContents.equals(casted.childrenAndContents);

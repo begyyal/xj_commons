@@ -13,7 +13,7 @@ import com.google.common.collect.Sets;
 import begyyal.commons.util.object.SuperList;
 import begyyal.commons.util.object.SuperList.SuperListGen;
 
-public class RefrectionResolver {
+public class ReflectionResolver {
 
     public static void doMethodThroughAll(
             Class<?> clazz,
