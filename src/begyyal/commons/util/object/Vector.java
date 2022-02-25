@@ -1,7 +1,5 @@
 package begyyal.commons.util.object;
 
-import java.util.Objects;
-
 import begyyal.commons.util.function.SuperMath;
 
 // javaのバージョンを上げたらrecordにする
@@ -43,6 +41,6 @@ public class Vector {
 
     @Override
     public int hashCode() {
-	return Objects.hash(this.x, this.y);
+	return (31 + this.x) * 31 + this.y;
     }
 }
