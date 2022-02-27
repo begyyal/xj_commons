@@ -36,11 +36,23 @@ public class Tree<T> {
 	return results;
     }
 
+    public SuperList<Tree<T>> traceRoots() {
+	var results = SuperListGen.<Tree<T>>newi();
+	recursive4roots(results);
+	return results;
+    }
+
     private void recursive4flat(List<Tree<T>> results, boolean onlyTips) {
 	if (!onlyTips || CollectionUtils.isEmpty(children))
 	    results.add(this);
 	for (var c : children)
 	    c.recursive4flat(results, onlyTips);
+    }
+
+    private void recursive4roots(List<Tree<T>> results) {
+	results.add(0, this);
+	if (parent != null)
+	    parent.recursive4roots(results);
     }
 
     public T getValue() {

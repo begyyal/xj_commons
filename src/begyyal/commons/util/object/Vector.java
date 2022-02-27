@@ -23,12 +23,22 @@ public class Vector {
 
     public Vector[] decompose() {
 	int gcd = Math.abs(SuperMath.gcd(this.x, this.y));
+	if (gcd == 0)
+	    return null;
 	int xFactor = this.x / gcd;
 	int yFactor = this.y / gcd;
 	var result = new Vector[gcd];
 	for (int i = 1; i <= gcd; i++)
 	    result[i - 1] = new Vector(i * xFactor, i * yFactor);
 	return result;
+    }
+
+    public boolean sameSlope(Vector v) {
+	if (this.x == 0 || v.x == 0)
+	    return this.x == v.x && SuperMath.simplify(y) == SuperMath.simplify(v.y);
+	if (this.y == 0 || v.y == 0)
+	    return this.y == v.y && SuperMath.simplify(x) == SuperMath.simplify(v.x);
+	return this.x / this.y == v.x / v.y;
     }
 
     @Override
