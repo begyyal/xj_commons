@@ -63,6 +63,10 @@ public class Tree<T> {
 	return this.parent;
     }
 
+    public void addChild(T child) {
+	this.children.add(newi(child, this));
+    }
+
     public Set<Tree<T>> getChildren() {
 	return Collections.unmodifiableSet(this.children);
     }
