@@ -1,9 +1,11 @@
 bin/
 doc/
 build/
+.settings/
 
 .classpath
 .gradle
+.project
 
 test/
 
