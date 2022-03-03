@@ -7,7 +7,6 @@ import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class XMap<K, V> extends HashMap<K, V> {
 
@@ -47,23 +46,17 @@ public class XMap<K, V> extends HashMap<K, V> {
 	    return new XMap<K, V>(m);
 	}
 
-	/**
-	 * {@link #collect(Function, Function, BinaryOperator) コレクターを生成}する。<br>
-	 * 累積時にエントリが競合した場合、後勝ちとなる。
-	 */
-	public static <T, K, V>
-	    Collector<T, ?, XMap<K, V>> collect(
-		Function<? super T, ? extends K> keyMapper,
-		Function<? super T, ? extends V> valueMapper) {
+	public static <T, K, V> Collector<T, ?, XMap<K, V>> collect(
+	    Function<? super T, ? extends K> keyMapper,
+	    Function<? super T, ? extends V> valueMapper) {
 	    return collect(keyMapper, valueMapper, (o1, o2) -> o2);
 	}
 
-	/**
-	 * {@link XMap}へ累積させる{@link Collector}を生成する。<br>
-	 * <b>マッピング関数に基づく累積後の値にnullを許容する</b>。それ以外は関連事項を参照のこと。
-	 *
-	 * @see Collectors#toMap(Function, Function, BinaryOperator)
-	 */
+	public static <T, K> Collector<T, ?, XMap<K, Integer>> collect4count(
+	    Function<? super T, ? extends K> keyMapper) {
+	    return collect(keyMapper, o -> 1, (o1, o2) -> o2);
+	}
+
 	public static <T, K, V>
 	    Collector<T, ?, XMap<K, V>> collect(
 		Function<? super T, ? extends K> keyMapper,

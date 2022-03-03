@@ -1,6 +1,5 @@
 package begyyal.commons.object.collection;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,39 +32,24 @@ public class PairList<V1, V2> extends XList<Pair<V1, V2>> {
 	super(capa, squeezeFunc);
     }
 
-    /**
-     * @see XList#add(Object)
-     */
     public boolean add(V1 v1, V2 v2) {
 	return add(Pair.of(v1, v2));
     }
 
-    /**
-     * @see XList#add(int, Object)
-     */
     public void add(int index, V1 v1, V2 v2) {
 	super.add(index, Pair.of(v1, v2));
     }
 
-    /**
-     * @see XList#append(Object)
-     */
     public PairList<V1, V2> append(V1 v1, V2 v2) {
 	add(Pair.of(v1, v2));
 	return this;
     }
 
-    /**
-     * @see XList#append(int, Object)
-     */
     public PairList<V1, V2> append(int index, V1 v1, V2 v2) {
 	add(index, Pair.of(v1, v2));
 	return this;
     }
 
-    /**
-     * @see ArrayList#set(int, Object)
-     */
     public Pair<V1, V2> set(int index, V1 v1, V2 v2) {
 	return super.set(index, Pair.of(v1, v2));
     }
@@ -130,82 +114,46 @@ public class PairList<V1, V2> extends XList<Pair<V1, V2>> {
 	    super(c);
 	}
 
-	/**
-	 * !!変更不可!!<br>
-	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
-	 */
 	@Deprecated
 	public Pair<V1, V2> set(int index, Pair<V1, V2> v) {
 	    throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * !!変更不可!!<br>
-	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
-	 */
 	@Deprecated
 	public Pair<V1, V2> remove(int index) {
 	    throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * !!変更不可!!<br>
-	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
-	 */
 	@Deprecated
 	public boolean add(Pair<V1, V2> v) {
 	    throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * !!変更不可!!<br>
-	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
-	 */
 	@Deprecated
 	public boolean addAll(Collection<? extends Pair<V1, V2>> v) {
 	    throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * !!変更不可!!<br>
-	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
-	 */
 	@Deprecated
 	public boolean removeIf(Predicate<? super Pair<V1, V2>> filter) {
 	    throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * !!変更不可!!<br>
-	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
-	 */
 	@Deprecated
 	public void sort(Comparator<? super Pair<V1, V2>> c) {
 	    throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * !!変更不可!!<br>
-	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
-	 */
 	@Deprecated
 	public void updateThresholdSize(int size) {
 	    throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * !!変更不可!!<br>
-	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
-	 */
 	@Deprecated
 	public void ensureCapacity(int minCapacity) {
 	    throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * !!変更不可!!<br>
-	 * 呼び出した場合に{@link UnsupportedOperationException}をスローする。
-	 */
 	@Deprecated
 	public void trimToSize() {
 	    throw new UnsupportedOperationException();
@@ -233,16 +181,10 @@ public class PairList<V1, V2> extends XList<Pair<V1, V2>> {
 	    return new PairList<V1, V2>(c);
 	}
 
-	/**
-	 * @see XListGen#of(int)
-	 */
 	public static <V1, V2> PairList<V1, V2> of(int thresholdSize) {
 	    return new PairList<V1, V2>(thresholdSize, null);
 	}
 
-	/**
-	 * @see XListGen#of(int, Function)
-	 */
 	public static <V1, V2> PairList<V1, V2> of(
 	    int thresholdSize,
 	    Function<XList<Pair<V1, V2>>, Pair<V1, V2>> squeezeFunc) {
