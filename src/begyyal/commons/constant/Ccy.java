@@ -3,8 +3,8 @@ package begyyal.commons.constant;
 import java.util.Arrays;
 import java.util.Currency;
 
-import begyyal.commons.util.object.SuperList;
-import begyyal.commons.util.object.SuperList.SuperListGen;
+import begyyal.commons.object.collection.XList;
+import begyyal.commons.object.collection.XList.XListGen;
 
 public enum Ccy {
 
@@ -24,18 +24,18 @@ public enum Ccy {
 
     public final Currency ccy;
 
-    private volatile SuperList<Country> countries;
+    private volatile XList<Country> countries;
 
     private Ccy(Currency ccy) {
         this.ccy = ccy;
     }
 
-    public SuperList<Country> getCountry() {
+    public XList<Country> getCountry() {
         if (countries != null)
             return countries;
         countries = Arrays.stream(Country.values())
                 .filter(country -> country.ccy == this)
-                .collect(SuperListGen.collect());
+                .collect(XListGen.collect());
         return countries;
     }
 }

@@ -1,15 +1,13 @@
-package begyyal.commons.util.object;
+package begyyal.commons.object;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import org.apache.commons.collections4.CollectionUtils;
-
-import com.google.common.collect.Sets;
-
-import begyyal.commons.util.object.SuperList.SuperListGen;
+import begyyal.commons.object.collection.XGen;
+import begyyal.commons.object.collection.XList;
+import begyyal.commons.object.collection.XList.XListGen;
 
 public class Tree<T> {
 
@@ -24,26 +22,26 @@ public class Tree<T> {
 	this.children = children;
     }
 
-    public SuperList<Tree<T>> flat() {
-	var results = SuperListGen.<Tree<T>>newi();
+    public XList<Tree<T>> flat() {
+	var results = XListGen.<Tree<T>>newi();
 	recursive4flat(results, false);
 	return results;
     }
 
-    public SuperList<Tree<T>> collectTips() {
-	var results = SuperListGen.<Tree<T>>newi();
+    public XList<Tree<T>> collectTips() {
+	var results = XListGen.<Tree<T>>newi();
 	recursive4flat(results, true);
 	return results;
     }
 
-    public SuperList<Tree<T>> traceRoots() {
-	var results = SuperListGen.<Tree<T>>newi();
+    public XList<Tree<T>> traceRoots() {
+	var results = XListGen.<Tree<T>>newi();
 	recursive4roots(results);
 	return results;
     }
 
     private void recursive4flat(List<Tree<T>> results, boolean onlyTips) {
-	if (!onlyTips || CollectionUtils.isEmpty(children))
+	if (!onlyTips || children == null || children.isEmpty())
 	    results.add(this);
 	for (var c : children)
 	    c.recursive4flat(results, onlyTips);
@@ -73,7 +71,7 @@ public class Tree<T> {
 
     public void compound(List<T> target) {
 
-	if (CollectionUtils.isEmpty(target))
+	if (target == null || target.isEmpty())
 	    return;
 
 	Tree<T> child = null;
@@ -100,7 +98,7 @@ public class Tree<T> {
     }
 
     public static <V> Tree<V> newi(V v, Tree<V> parent) {
-	return new Tree<V>(v, parent, Sets.newHashSet());
+	return new Tree<V>(v, parent, XGen.newHashSet());
     }
 
     public static <V> Tree<V> convert(List<V> listedV) {
@@ -109,7 +107,7 @@ public class Tree<T> {
 
     public static <V> Tree<V> convert(List<V> listedV, Tree<V> parent) {
 
-	if (CollectionUtils.isEmpty(listedV))
+	if (listedV == null || listedV.isEmpty())
 	    throw new IllegalArgumentException("The listed values must not be empty.");
 
 	Tree<V> result = null;

@@ -1,4 +1,4 @@
-package begyyal.commons.util.object;
+package begyyal.commons.object.collection;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,25 +6,21 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import org.apache.commons.collections4.CollectionUtils;
-import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
 
-import begyyal.commons.util.object.PairList.PairListGen;
-import begyyal.commons.util.object.TripleList.TripleListGen;
+import begyyal.commons.object.collection.PairList.PairListGen;
+import begyyal.commons.object.collection.TripleList.TripleListGen;
 
 /**
  * 汎用操作および機能が拡張実装された{@link ArrayList}。 <br>
- * インスタンス生成は{@link SuperListGen}にて実行が可能。
+ * インスタンス生成は{@link XListGen}にて実行が可能。
  */
-public class SuperList<V>
-	extends
-	ArrayList<V> {
+public class XList<V> extends ArrayList<V> {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,26 +36,26 @@ public class SuperList<V>
      * 1 - 本関数がnullかつ要素数が上限を満たしている場合、追加操作自体がスキップされる。<br>
      * 2 - 本関数がリストに存在しない要素を返却した場合、末端要素を対象とした削除にて処理が代替される。<br>
      */
-    protected Function<SuperList<V>, V> squeezeFunc;
+    protected Function<XList<V>, V> squeezeFunc;
 
     protected int focus = -1;
 
-    protected SuperList() {
+    protected XList() {
 	super();
     }
 
-    protected SuperList(Collection<? extends V> c) {
+    protected XList(Collection<? extends V> c) {
 	super(c);
     }
 
-    protected SuperList(SuperList<V> c) {
+    protected XList(XList<V> c) {
 	super(c);
 	this.thresholdSize = c.thresholdSize;
 	this.squeezeFunc = c.squeezeFunc;
 	this.focus = c.focus;
     }
 
-    protected SuperList(int capa, Function<SuperList<V>, V> squeezeFunc) {
+    protected XList(int capa, Function<XList<V>, V> squeezeFunc) {
 	super(capa);
 	this.thresholdSize = capa;
 	this.squeezeFunc = squeezeFunc;
@@ -111,13 +107,13 @@ public class SuperList<V>
 	    return false;
 	}
 
-	return result && !Objects.equal(v, squeeze);
+	return result && !Objects.equals(v, squeeze);
     }
 
     /**
      * 要素を{@link #add(Object) 追加}してリストを返却する。
      */
-    public SuperList<V> append(V v) {
+    public XList<V> append(V v) {
 	this.add(v);
 	return this;
     }
@@ -125,7 +121,7 @@ public class SuperList<V>
     /**
      * 指定したインデックスへ要素を{@link #add(Object) 追加}してリストを返却する。
      */
-    public SuperList<V> append(int index, V v) {
+    public XList<V> append(int index, V v) {
 	this.add(index, v);
 	return this;
     }
@@ -144,11 +140,13 @@ public class SuperList<V>
     @Override
     public boolean addAll(Collection<? extends V> v) {
 
-	if (thresholdSize == -1 || size() + v.size() <= thresholdSize)
+	if (v == null)
+	    return false;
+	else if (thresholdSize == -1 || size() + v.size() <= thresholdSize)
 	    return super.addAll(v);
 	else if (squeezeFunc == null)
 	    return !isFull() && super.addAll(
-		(v instanceof List ? (List<? extends V>) v : Lists.newArrayList(v))
+		(v instanceof List ? (List<? extends V>) v : new ArrayList<V>(v))
 		    .subList(0, thresholdSize - size()));
 
 	boolean result = super.addAll(v);
@@ -162,7 +160,7 @@ public class SuperList<V>
 	    return false;
 	}
 
-	return result && !CollectionUtils.containsAny(v, squeeze);
+	return result && !v.contains(squeeze);
     }
 
     /**
@@ -182,7 +180,7 @@ public class SuperList<V>
     /**
      * 対象の要素全てを{@link #addAll(Collection) 追加}し、リストを返却する。
      */
-    public SuperList<V> appendAll(Collection<? extends V> v) {
+    public XList<V> appendAll(Collection<? extends V> v) {
 	addAll(v);
 	return this;
     }
@@ -191,7 +189,7 @@ public class SuperList<V>
      * 対象の要素全てを{@link #addAll(Object...) 追加}し、リストを返却する。
      */
     @SuppressWarnings("unchecked")
-    public SuperList<V> appendAll(V... vArray) {
+    public XList<V> appendAll(V... vArray) {
 	addAll(vArray);
 	return this;
     }
@@ -239,7 +237,7 @@ public class SuperList<V>
      */
     public <V2> PairList<V, V2> zip(List<V2> v2) {
 
-	if (size() == 0 || CollectionUtils.isEmpty(v2))
+	if (size() == 0 || v2 == null || v2.isEmpty())
 	    return PairListGen.empty();
 
 	PairList<V, V2> result = PairListGen.newi();
@@ -255,7 +253,7 @@ public class SuperList<V>
      */
     public <V2, V3> TripleList<V, V2, V3> zip(List<V2> v2, List<V3> v3) {
 
-	if (size() == 0 || CollectionUtils.isEmpty(v2) || CollectionUtils.isEmpty(v3))
+	if (size() == 0 || v2 == null || v2.isEmpty() || v3 == null || v3.isEmpty())
 	    return TripleListGen.empty();
 
 	TripleList<V, V2, V3> result = TripleListGen.newi();
@@ -381,7 +379,7 @@ public class SuperList<V>
     /**
      * 現在の順序をそのまま逆にして、リストを返却する。(ソートではない)
      */
-    public SuperList<V> reverse() {
+    public XList<V> reverse() {
 	int size = size();
 	for (int i = size - 1; i >= 0; i--)
 	    add(get(i));
@@ -392,16 +390,16 @@ public class SuperList<V>
     /**
      * 変更操作が不可能なコピーを返却する。(ビューではない)
      */
-    public SuperList<V> createImmutableClone() {
-	return new ImmutableSuperList<V>(this);
+    public XList<V> createImmutableClone() {
+	return new ImmutableXList<V>(this);
     }
 
     /**
      * 指定された範囲のコピーを返却する。(ビューではない)
      */
-    public SuperList<V> createPartialList(int from, int to) {
+    public XList<V> createPartialList(int from, int to) {
 	rangeCheck(from, to, size());
-	var l = new SuperList<V>();
+	var l = new XList<V>();
 	for (int i = from; i < to; i++)
 	    l.add(get(i));
 	return l;
@@ -417,13 +415,13 @@ public class SuperList<V>
 		"fromIndex(" + fromIndex + ") > toIndex(" + toIndex + ")");
     }
 
-    public static class ImmutableSuperList<V>
+    public static class ImmutableXList<V>
 	    extends
-	    SuperList<V> {
+	    XList<V> {
 
 	private static final long serialVersionUID = 1L;
 
-	private ImmutableSuperList(Collection<? extends V> base) {
+	private ImmutableXList(Collection<? extends V> base) {
 	    super(base);
 	}
 
@@ -509,26 +507,26 @@ public class SuperList<V>
 	}
     }
 
-    public static class SuperListGen {
+    public static class XListGen {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private static final ImmutableSuperList empty = new ImmutableSuperList(
+	private static final ImmutableXList empty = new ImmutableXList(
 	    Collections.emptyList());
 
-	private SuperListGen() {
+	private XListGen() {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static final <V> ImmutableSuperList<V> empty() {
-	    return (ImmutableSuperList<V>) empty;
+	public static final <V> ImmutableXList<V> empty() {
+	    return (ImmutableXList<V>) empty;
 	}
 
-	public static <V> SuperList<V> newi() {
-	    return new SuperList<V>();
+	public static <V> XList<V> newi() {
+	    return new XList<V>();
 	}
 
-	public static <V> SuperList<V> of(Collection<? extends V> c) {
-	    return new SuperList<V>(c);
+	public static <V> XList<V> of(Collection<? extends V> c) {
+	    return new XList<V>(c);
 	}
 
 	/**
@@ -536,8 +534,8 @@ public class SuperList<V>
 	 *
 	 * @param thresholdSize {@link #thresholdSize}
 	 */
-	public static <V> SuperList<V> of(int thresholdSize) {
-	    return new SuperList<V>(thresholdSize, null);
+	public static <V> XList<V> of(int thresholdSize) {
+	    return new XList<V>(thresholdSize, null);
 	}
 
 	/**
@@ -547,27 +545,27 @@ public class SuperList<V>
 	 * @param thresholdSize {@link #thresholdSize}
 	 * @param squeezeFunc {@link #squeezeFunc}
 	 */
-	public static <V> SuperList<V>
-	    of(int thresholdSize, Function<SuperList<V>, V> squeezeFunc) {
-	    return new SuperList<V>(thresholdSize, squeezeFunc);
+	public static <V> XList<V>
+	    of(int thresholdSize, Function<XList<V>, V> squeezeFunc) {
+	    return new XList<V>(thresholdSize, squeezeFunc);
 	}
 
 	@SafeVarargs
-	public static <V> SuperList<V> of(V... values) {
-	    return new SuperList<V>(Arrays.asList(values));
+	public static <V> XList<V> of(V... values) {
+	    return new XList<V>(Arrays.asList(values));
 	}
 
 	@SafeVarargs
-	public static <V> ImmutableSuperList<V> immutableOf(V... values) {
-	    return new ImmutableSuperList<V>(Arrays.asList(values));
+	public static <V> ImmutableXList<V> immutableOf(V... values) {
+	    return new ImmutableXList<V>(Arrays.asList(values));
 	}
 
-	public static <V> ImmutableSuperList<V> immutableOf(Collection<? extends V> c) {
-	    return new ImmutableSuperList<V>(c);
+	public static <V> ImmutableXList<V> immutableOf(Collection<? extends V> c) {
+	    return new ImmutableXList<V>(c);
 	}
 
-	public static <T> Collector<T, ?, SuperList<T>> collect() {
-	    return Collectors.toCollection(SuperList::new);
+	public static <T> Collector<T, ?, XList<T>> collect() {
+	    return Collectors.toCollection(XList::new);
 	}
     }
 }

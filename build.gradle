@@ -12,12 +12,9 @@ java {
     }
 }
 
-dependencies {
-	api files(
-		'jar/commons-collections4-4.1.jar',
-		'jar/commons-lang3-3.7.jar',
-		'jar/guava-19.0.jar')
-}
+// dependencies {
+// 	api files()
+// }
 
 sourceSets {
     main {
@@ -36,6 +33,7 @@ tasks.withType(JavaCompile) {
 
 delete('resources/META-INF/')
 jar {
+	baseName = 'xj_commons'
     from configurations.compileClasspath.collect{ it.isDirectory() ? it : zipTreeByCustom(it) }
 }
 

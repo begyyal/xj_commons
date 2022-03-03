@@ -1,25 +1,19 @@
-package begyyal.commons.util.object;
+package begyyal.commons.object.collection;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.tuple.Pair;
-import com.google.common.base.Objects;
 
-import begyyal.commons.util.object.SuperMap.SuperMapGen;
+import begyyal.commons.object.Pair;
+import begyyal.commons.object.collection.XMap.XMapGen;
 
-/**
- * 要素を{@link Pair ペア}で保持する{@link SuperList}。<br>
- * インスタンス生成は{@link PairListGen}にて実行が可能。
- */
-public class PairList<V1, V2>
-	extends
-	SuperList<Pair<V1, V2>> {
+public class PairList<V1, V2> extends XList<Pair<V1, V2>> {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,30 +25,30 @@ public class PairList<V1, V2>
 	super(c);
     }
 
-    protected PairList(SuperList<Pair<V1, V2>> c) {
+    protected PairList(XList<Pair<V1, V2>> c) {
 	super(c);
     }
 
-    protected PairList(int capa, Function<SuperList<Pair<V1, V2>>, Pair<V1, V2>> squeezeFunc) {
+    protected PairList(int capa, Function<XList<Pair<V1, V2>>, Pair<V1, V2>> squeezeFunc) {
 	super(capa, squeezeFunc);
     }
 
     /**
-     * @see SuperList#add(Object)
+     * @see XList#add(Object)
      */
     public boolean add(V1 v1, V2 v2) {
 	return add(Pair.of(v1, v2));
     }
 
     /**
-     * @see SuperList#add(int, Object)
+     * @see XList#add(int, Object)
      */
     public void add(int index, V1 v1, V2 v2) {
 	super.add(index, Pair.of(v1, v2));
     }
 
     /**
-     * @see SuperList#append(Object)
+     * @see XList#append(Object)
      */
     public PairList<V1, V2> append(V1 v1, V2 v2) {
 	add(Pair.of(v1, v2));
@@ -62,7 +56,7 @@ public class PairList<V1, V2>
     }
 
     /**
-     * @see SuperList#append(int, Object)
+     * @see XList#append(int, Object)
      */
     public PairList<V1, V2> append(int index, V1 v1, V2 v2) {
 	add(index, Pair.of(v1, v2));
@@ -77,54 +71,50 @@ public class PairList<V1, V2>
     }
 
     public Pair<V1, V2> setV1(int index, V1 v1) {
-	var newp = Pair.of(v1, get(index).getRight());
+	var newp = Pair.of(v1, get(index).v2);
 	return super.set(index, newp);
     }
 
     public Pair<V1, V2> setV2(int index, V2 v2) {
-	var newp = Pair.of(get(index).getLeft(), v2);
+	var newp = Pair.of(get(index).v1, v2);
 	return super.set(index, newp);
     }
 
-    public SuperList<V1> getV1List() {
-	return stream()
-	    .map(p -> p.getLeft())
-	    .collect(SuperListGen.collect());
+    public XList<V1> getV1List() {
+	return stream().map(p -> p.v1).collect(XListGen.collect());
     }
 
-    public SuperList<V2> getV2List() {
-	return stream()
-	    .map(p -> p.getRight())
-	    .collect(SuperListGen.collect());
+    public XList<V2> getV2List() {
+	return stream().map(p -> p.v2).collect(XListGen.collect());
     }
 
-    public SuperList<V1> getV1RelatedBy(V2 v2) {
+    public XList<V1> getV1RelatedBy(V2 v2) {
 	return stream()
-	    .filter(p -> Objects.equal(p.getRight(), v2))
-	    .map(p -> p.getLeft())
-	    .collect(SuperListGen.collect());
+	    .filter(p -> Objects.equals(p.v2, v2))
+	    .map(p -> p.v1)
+	    .collect(XListGen.collect());
     }
 
-    public SuperList<V2> getV2RelatedBy(V1 v1) {
+    public XList<V2> getV2RelatedBy(V1 v1) {
 	return stream()
-	    .filter(p -> Objects.equal(p.getLeft(), v1))
-	    .map(p -> p.getRight())
-	    .collect(SuperListGen.collect());
+	    .filter(p -> Objects.equals(p.v1, v1))
+	    .map(p -> p.v2)
+	    .collect(XListGen.collect());
     }
 
-    public SuperMap<V1, SuperList<V2>> toMap() {
-	var map = SuperMapGen.<V1, SuperList<V2>>newi();
-	this.forEach(p -> map.compute(p.getKey(),
-	    (k, v) -> v == null ? SuperListGen.of(p.getValue()) : v.append(p.getValue())));
+    public XMap<V1, XList<V2>> toMap() {
+	var map = XMapGen.<V1, XList<V2>>newi();
+	this.forEach(p -> map.compute(p.v1,
+	    (k, v) -> v == null ? XListGen.of(p.v2) : v.append(p.v2)));
 	return map;
     }
 
     public boolean contains(V1 a, V2 b) {
-	return this.anyMatch(p -> Objects.equal(p.getLeft(), a) && Objects.equal(p.getRight(), b));
+	return this.anyMatch(p -> Objects.equals(p.v1, a) && Objects.equals(p.v2, b));
     }
 
     /**
-     * @see SuperList#createImmutableClone()
+     * @see XList#createImmutableClone()
      */
     public PairList<V1, V2> createImmutableClone() {
 	return new ImmutablePairList<V1, V2>(this);
@@ -244,18 +234,18 @@ public class PairList<V1, V2>
 	}
 
 	/**
-	 * @see SuperListGen#of(int)
+	 * @see XListGen#of(int)
 	 */
 	public static <V1, V2> PairList<V1, V2> of(int thresholdSize) {
 	    return new PairList<V1, V2>(thresholdSize, null);
 	}
 
 	/**
-	 * @see SuperListGen#of(int, Function)
+	 * @see XListGen#of(int, Function)
 	 */
 	public static <V1, V2> PairList<V1, V2> of(
 	    int thresholdSize,
-	    Function<SuperList<Pair<V1, V2>>, Pair<V1, V2>> squeezeFunc) {
+	    Function<XList<Pair<V1, V2>>, Pair<V1, V2>> squeezeFunc) {
 	    return new PairList<V1, V2>(thresholdSize, squeezeFunc);
 	}
 

@@ -1,6 +1,6 @@
-package begyyal.commons.util.object;
+package begyyal.commons.object;
 
-import begyyal.commons.util.function.SuperMath;
+import begyyal.commons.util.function.XMath;
 
 // javaのバージョンを上げたらrecordにする
 public class Vector {
@@ -22,7 +22,7 @@ public class Vector {
     }
 
     public Vector[] decompose() {
-	int gcd = Math.abs(SuperMath.gcd(this.x, this.y));
+	int gcd = Math.abs(XMath.gcd(this.x, this.y));
 	if (gcd == 0)
 	    return null;
 	int xFactor = this.x / gcd;
@@ -35,9 +35,9 @@ public class Vector {
 
     public boolean sameSlope(Vector v) {
 	if (this.x == 0 || v.x == 0)
-	    return this.x == v.x && SuperMath.simplify(y) == SuperMath.simplify(v.y);
+	    return this.x == v.x && XMath.simplify(y) == XMath.simplify(v.y);
 	if (this.y == 0 || v.y == 0)
-	    return this.y == v.y && SuperMath.simplify(x) == SuperMath.simplify(v.x);
+	    return this.y == v.y && XMath.simplify(x) == XMath.simplify(v.x);
 	return this.x / this.y == v.x / v.y;
     }
 

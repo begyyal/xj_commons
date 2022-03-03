@@ -1,7 +1,10 @@
 package begyyal.commons.util.function;
 
-public class SuperMath {
+public class XMath {
 
+    private XMath() {
+    }
+    
     public static int gcd(int a, int b) {
 	return b != 0 ? gcd(b, a % b) : a;
     }

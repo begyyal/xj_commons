@@ -1,4 +1,4 @@
-package begyyal.commons.util.web.constant;
+package begyyal.commons.constant.web;
 
 public enum HttpStatus {
 

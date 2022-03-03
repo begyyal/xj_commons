@@ -1,29 +1,29 @@
 package begyyal.commons.util.cache;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
-
-import com.google.common.collect.Maps;
 
 public class SimpleCacheResolver {
 
     private static final Map<Object, Map<?, ?>> //
-    publicCache = Maps.newConcurrentMap();
+    publicCache = new ConcurrentHashMap<Object, Map<?, ?>>();
     private static final Map<Class<?>, Map<Object, Map<?, ?>>> //
-    privateCache = Maps.newConcurrentMap();
+    privateCache = new ConcurrentHashMap<Class<?>, Map<Object, Map<?, ?>>>();
 
     public static <K, V> V getAsPublic(Object mapId, K key, Supplier<? extends V> s) {
 	@SuppressWarnings("unchecked")
 	var cache = (Map<K, V>) publicCache.computeIfAbsent(
-	    mapId, k -> Maps.<K, V>newConcurrentMap());
+	    mapId, k -> new ConcurrentHashMap<K, V>());
 	return cache.computeIfAbsent(key, k -> s.get());
     }
 
-    public static <K, V> V getAsPrivate(Class<?> caller, Object mapId, K key, Supplier<? extends V> s) {
+    public static <K, V> V getAsPrivate(Class<?> caller, Object mapId, K key,
+	Supplier<? extends V> s) {
 	@SuppressWarnings("unchecked")
 	var small = (Map<K, V>) privateCache
-	    .computeIfAbsent(caller, k -> Maps.newConcurrentMap())
-	    .computeIfAbsent(mapId, k -> Maps.<K, V>newConcurrentMap());
+	    .computeIfAbsent(caller, k -> new ConcurrentHashMap<Object, Map<?, ?>>())
+	    .computeIfAbsent(mapId, k -> new ConcurrentHashMap<K, V>());
 	return small.computeIfAbsent(key, k -> s.get());
     }
 

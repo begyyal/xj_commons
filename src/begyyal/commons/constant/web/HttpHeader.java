@@ -1,10 +1,5 @@
-package begyyal.commons.util.web.constant;
+package begyyal.commons.constant.web;
 
-import org.apache.commons.lang3.StringUtils;
-
-/**
- * Httpヘッダのプロパティ。
- */
 public enum HttpHeader {
 
     Accept("Accept"),
@@ -63,7 +58,7 @@ public enum HttpHeader {
     public final String str;
 
     private HttpHeader(String str) {
-        this.str = str;
+	this.str = str;
     }
 
     /**
@@ -71,6 +66,6 @@ public enum HttpHeader {
      * 大文字/小文字の相違は許容されない。
      */
     public boolean symbolizes(String target) {
-        return StringUtils.equals(target, str);
+	return str.equals(target);
     }
 }

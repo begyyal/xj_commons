@@ -1,4 +1,4 @@
-package begyyal.commons.util.object;
+package begyyal.commons.object.collection;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -6,13 +6,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * {@link Object}指定の{@link SuperList}。型指定による諸操作が可能。 <br>
- * インスタンス生成は{@link VarListGen}にて実行が可能。
- */
-public class VarList
-        extends
-        SuperList<Object> {
+public class VarList extends XList<Object> {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,21 +21,21 @@ public class VarList
     /**
      * String型の要素をまとめてリストとして返却する。
      */
-    public SuperList<String> getStr() {
+    public XList<String> getStr() {
         return get(String.class);
     }
 
     /**
      * Integer型の要素をまとめてリストとして返却する。
      */
-    public SuperList<Integer> getInt() {
+    public XList<Integer> getInt() {
         return get(Integer.class);
     }
 
     /**
      * Long型の要素をまとめてリストとして返却する。
      */
-    public SuperList<Long> getLong() {
+    public XList<Long> getLong() {
         return get(Long.class);
     }
 
@@ -57,12 +51,12 @@ public class VarList
     /**
      * 指定型の要素をまとめてリストとして返却する。
      */
-    public <V> SuperList<V> get(Class<? extends V> clazz) {
-        return stream(clazz).collect(SuperListGen.collect());
+    public <V> XList<V> get(Class<? extends V> clazz) {
+        return stream(clazz).collect(XListGen.collect());
     }
 
     /**
-     * 指定型の要素を全て{@link SuperList#remove(Object) 削除}する。
+     * 指定型の要素を全て{@link XList#remove(Object) 削除}する。
      */
     public boolean remove(Class<?> clazz) {
         return stream()

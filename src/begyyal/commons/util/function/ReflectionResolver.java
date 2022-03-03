@@ -7,13 +7,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-import org.apache.commons.collections4.CollectionUtils;
-import com.google.common.collect.Sets;
 
-import begyyal.commons.util.object.SuperList;
-import begyyal.commons.util.object.SuperList.SuperListGen;
+import begyyal.commons.object.collection.XGen;
+import begyyal.commons.object.collection.XList;
+import begyyal.commons.object.collection.XList.XListGen;
 
 public class ReflectionResolver {
+
+    private ReflectionResolver() {
+    }
 
     public static void doMethodThroughAll(
 	Class<?> clazz,
@@ -121,7 +123,7 @@ public class ReflectionResolver {
     }
 
     public static Set<Class<?>> getClassExpression(Class<?> clazz) {
-	var set = Sets.<Class<?>>newHashSet();
+	var set = XGen.<Class<?>>newHashSet();
 	fillClassExpression(clazz, set);
 	return set;
     }
@@ -150,13 +152,13 @@ public class ReflectionResolver {
 	return o != null && clazz != null && clazz.isInstance(o) ? clazz.cast(o) : null;
     }
 
-    public static <V> SuperList<V> cast(Class<V> clazz, List<?> col) {
-	return CollectionUtils.isNotEmpty(col) && clazz != null
+    public static <V> XList<V> cast(Class<V> clazz, List<?> col) {
+	return col != null && !col.isEmpty() && clazz != null
 		? col.stream()
 		    .filter(f -> clazz.isInstance(f))
 		    .map(f -> clazz.cast(f))
-		    .collect(SuperListGen.collect())
-		: SuperListGen.empty();
+		    .collect(XListGen.collect())
+		: XListGen.empty();
     }
 
     public static <V> Stream<V> cast(Class<V> clazz, Stream<?> s) {

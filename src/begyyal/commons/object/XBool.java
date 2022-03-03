@@ -1,24 +1,21 @@
-package begyyal.commons.util.object;
+package begyyal.commons.object;
 
-/**
- * 汎用操作を追加した参照型のブーリアン。
- */
-public class SuperBool {
+public class XBool {
 
     private boolean fresh = true;
 
     private boolean bool;
 
-    private SuperBool(boolean b) {
+    private XBool(boolean b) {
         this.bool = b;
     }
 
-    public static SuperBool newi() {
-        return new SuperBool(false);
+    public static XBool newi() {
+        return new XBool(false);
     }
 
-    public static SuperBool of(boolean b) {
-        return new SuperBool(b);
+    public static XBool of(boolean b) {
+        return new XBool(b);
     }
 
     public boolean get() {
@@ -29,9 +26,6 @@ public class SuperBool {
         this.bool = b;
     }
 
-    /**
-     * 本インスタンスにおいて初めて本メソッドが呼び出された場合にのみtrueを返却する。
-     */
     public boolean isFirstTouch() {
         boolean result = fresh;
         fresh = false;

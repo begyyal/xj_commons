@@ -1,24 +1,21 @@
-package begyyal.commons.util.object;
+package begyyal.commons.object.collection;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.tuple.Triple;
-
-import com.google.common.base.Objects;
+import begyyal.commons.object.Triple;
 
 /**
- * 要素を{@link Triple トリプル}で保持する{@link SuperList}。<br>
+ * 要素を{@link Triple トリプル}で保持する{@link XList}。<br>
  * インスタンス生成は{@link TripleListGen}にて実行が可能。
  */
-public class TripleList<V1, V2, V3>
-	extends
-	SuperList<Triple<V1, V2, V3>> {
+public class TripleList<V1, V2, V3> extends XList<Triple<V1, V2, V3>> {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,32 +27,32 @@ public class TripleList<V1, V2, V3>
 	super(c);
     }
 
-    protected TripleList(SuperList<Triple<V1, V2, V3>> c) {
+    protected TripleList(XList<Triple<V1, V2, V3>> c) {
 	super(c);
     }
 
     private TripleList(
 	int capa,
-	Function<SuperList<Triple<V1, V2, V3>>, Triple<V1, V2, V3>> squeezeFunc) {
+	Function<XList<Triple<V1, V2, V3>>, Triple<V1, V2, V3>> squeezeFunc) {
 	super(capa, squeezeFunc);
     }
 
     /**
-     * @see SuperList#add(Object)
+     * @see XList#add(Object)
      */
     public boolean add(V1 v1, V2 v2, V3 v3) {
 	return add(Triple.of(v1, v2, v3));
     }
 
     /**
-     * @see SuperList#add(int, Object)
+     * @see XList#add(int, Object)
      */
     public void add(int index, V1 v1, V2 v2, V3 v3) {
 	add(index, Triple.of(v1, v2, v3));
     }
 
     /**
-     * @see SuperList#append(Object)
+     * @see XList#append(Object)
      */
     public TripleList<V1, V2, V3> append(V1 v1, V2 v2, V3 v3) {
 	add(Triple.of(v1, v2, v3));
@@ -63,7 +60,7 @@ public class TripleList<V1, V2, V3>
     }
 
     /**
-     * @see SuperList#append(int, Object)
+     * @see XList#append(int, Object)
      */
     public TripleList<V1, V2, V3> append(int index, V1 v1, V2 v2, V3 v3) {
 	add(index, Triple.of(v1, v2, v3));
@@ -71,7 +68,7 @@ public class TripleList<V1, V2, V3>
     }
 
     /**
-     * @see SuperList#set(int, Object)
+     * @see XList#set(int, Object)
      */
     public Triple<V1, V2, V3> set(int index, V1 v1, V2 v2, V3 v3) {
 	return super.set(index, Triple.of(v1, v2, v3));
@@ -79,48 +76,42 @@ public class TripleList<V1, V2, V3>
 
     public Triple<V1, V2, V3> setV1(int index, V1 v1) {
 	var v = get(index);
-	var newt = Triple.of(v1, v.getMiddle(), v.getRight());
+	var newt = Triple.of(v1, v.v2, v.v3);
 	return super.set(index, newt);
     }
 
     public Triple<V1, V2, V3> setV2(int index, V2 v2) {
 	var v = get(index);
-	var newt = Triple.of(v.getLeft(), v2, v.getRight());
+	var newt = Triple.of(v.v1, v2, v.v3);
 	return super.set(index, newt);
     }
 
     public Triple<V1, V2, V3> setV3(int index, V3 v3) {
 	var v = get(index);
-	var newt = Triple.of(v.getLeft(), v.getMiddle(), v3);
+	var newt = Triple.of(v.v1, v.v2, v3);
 	return super.set(index, newt);
     }
 
-    public SuperList<V1> getV1List() {
-	return stream()
-	    .map(p -> p.getLeft())
-	    .collect(SuperListGen.collect());
+    public XList<V1> getV1List() {
+	return stream().map(p -> p.v1).collect(XListGen.collect());
     }
 
-    public SuperList<V2> getV2List() {
-	return stream()
-	    .map(p -> p.getMiddle())
-	    .collect(SuperListGen.collect());
+    public XList<V2> getV2List() {
+	return stream().map(p -> p.v2).collect(XListGen.collect());
     }
 
-    public SuperList<V3> getV3List() {
-	return stream()
-	    .map(p -> p.getRight())
-	    .collect(SuperListGen.collect());
+    public XList<V3> getV3List() {
+	return stream().map(p -> p.v3).collect(XListGen.collect());
     }
 
     public boolean contains(V1 a, V2 b, V3 c) {
-	return this.anyMatch(t -> Objects.equal(t.getLeft(), a)
-		&& Objects.equal(t.getMiddle(), b)
-		&& Objects.equal(t.getRight(), c));
+	return this.anyMatch(t -> Objects.equals(t.v1, a)
+		&& Objects.equals(t.v2, b)
+		&& Objects.equals(t.v3, c));
     }
 
     /**
-     * @see SuperList#createImmutableClone()
+     * @see XList#createImmutableClone()
      */
     public TripleList<V1, V2, V3> createImmutableClone() {
 	return new ImmutableTripleList<V1, V2, V3>(this);
@@ -132,7 +123,7 @@ public class TripleList<V1, V2, V3>
 
 	private static final long serialVersionUID = 1L;
 
-	private ImmutableTripleList(SuperList<Triple<V1, V2, V3>> c) {
+	private ImmutableTripleList(XList<Triple<V1, V2, V3>> c) {
 	    super(c);
 	}
 
@@ -241,18 +232,18 @@ public class TripleList<V1, V2, V3>
 	}
 
 	/**
-	 * @see SuperListGen#of(int)
+	 * @see XListGen#of(int)
 	 */
 	public static <V1, V2, V3> TripleList<V1, V2, V3> of(int capa) {
 	    return new TripleList<V1, V2, V3>(capa, null);
 	}
 
 	/**
-	 * @see SuperListGen#of(int, Function)
+	 * @see XListGen#of(int, Function)
 	 */
 	public static <V1, V2, V3> TripleList<V1, V2, V3> of(
 	    int capa,
-	    Function<SuperList<Triple<V1, V2, V3>>, Triple<V1, V2, V3>> squeezeFunc) {
+	    Function<XList<Triple<V1, V2, V3>>, Triple<V1, V2, V3>> squeezeFunc) {
 	    return new TripleList<V1, V2, V3>(capa, squeezeFunc);
 	}
 
