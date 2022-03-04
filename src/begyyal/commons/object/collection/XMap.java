@@ -54,7 +54,7 @@ public class XMap<K, V> extends HashMap<K, V> {
 
 	public static <T, K> Collector<T, ?, XMap<K, Integer>> collect4count(
 	    Function<? super T, ? extends K> keyMapper) {
-	    return collect(keyMapper, o -> 1, (o1, o2) -> o2);
+	    return collect(keyMapper, o -> 1, (o1, o2) -> o1 + o2);
 	}
 
 	public static <T, K, V>
