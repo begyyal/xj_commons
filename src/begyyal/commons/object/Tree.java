@@ -8,8 +8,9 @@ import java.util.Set;
 import begyyal.commons.object.collection.XGen;
 import begyyal.commons.object.collection.XList;
 import begyyal.commons.object.collection.XList.XListGen;
+import begyyal.commons.util.function.XUtils;
 
-public class Tree<T> {
+public class Tree<T> implements Comparable<Tree<T>> {
 
     private final T value;
     private final Tree<T> parent;
@@ -120,6 +121,17 @@ public class Tree<T> {
 	    parent = current;
 	}
 
+	return result;
+    }
+
+    @Override
+    public int compareTo(Tree<T> o) {
+	int result;
+	if (o == null)
+	    return -1;
+	else if ((result = XUtils.compare(this.getValue(), o.value)) == 0)
+	    if ((result = XUtils.compare(this.parent, o.parent)) == 0)
+		result = XUtils.compare(this.children, o.children);
 	return result;
     }
 }
