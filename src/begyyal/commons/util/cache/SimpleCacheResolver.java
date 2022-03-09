@@ -17,6 +17,11 @@ public class SimpleCacheResolver {
 	    mapId, k -> new ConcurrentHashMap<K, V>());
     }
 
+    public static <K, V> V getAsPublic(Object mapId, K key) {
+	Map<K, V> cache = getMap(mapId, key);
+	return cache.get(key);
+    }
+
     public static <K, V> V getAsPublic(Object mapId, K key, Supplier<? extends V> s) {
 	Map<K, V> cache = getMap(mapId, key);
 	return cache.computeIfAbsent(key, k -> s.get());
@@ -24,7 +29,7 @@ public class SimpleCacheResolver {
 
     public static <K, V> V putAsPublic(Object mapId, K key, V value) {
 	Map<K, V> cache = getMap(mapId, key);
-	return cache.putIfAbsent(key, value);
+	return cache.put(key, value);
     }
 
     @SuppressWarnings("unchecked")
@@ -32,6 +37,11 @@ public class SimpleCacheResolver {
 	return (Map<K, V>) privateCache
 	    .computeIfAbsent(caller, k -> new ConcurrentHashMap<Object, Map<?, ?>>())
 	    .computeIfAbsent(mapId, k -> new ConcurrentHashMap<K, V>());
+    }
+
+    public static <K, V> V getAsPrivate(Class<?> caller, Object mapId, K key) {
+	Map<K, V> small = getMap(caller, mapId, key);
+	return small.get(key);
     }
 
     public static <K, V> V getAsPrivate(Class<?> caller, Object mapId, K key,
@@ -42,20 +52,17 @@ public class SimpleCacheResolver {
 
     public static <K, V> V putAsPrivate(Class<?> caller, Object mapId, K key, V value) {
 	Map<K, V> small = getMap(caller, mapId, key);
-	return small.putIfAbsent(key, value);
+	return small.put(key, value);
     }
 
-    public static void removeAsPublic(Object mapId, Object key) {
-	var m = publicCache.get(mapId);
-	if (m != null)
-	    m.remove(key);
+    public static <K, V> V removeAsPublic(Object mapId, K key) {
+	Map<K, V> cache = getMap(mapId, key);
+	return cache.remove(key);
     }
 
-    public static void removeAsPrivate(Class<?> caller, Object mapId, Object key) {
-	Map<?, Map<?, ?>> m = privateCache.get(caller);
-	Map<?, ?> s = null;
-	if (m != null && (s = m.get(mapId)) != null)
-	    s.remove(key);
+    public static <K, V> V removeAsPrivate(Class<?> caller, Object mapId, K key) {
+	Map<K, V> small = getMap(caller, mapId, key);
+	return small.remove(key);
     }
 
     public static void clearAsPublic(Object mapId) {
