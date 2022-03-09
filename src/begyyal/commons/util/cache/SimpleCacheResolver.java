@@ -11,20 +11,38 @@ public class SimpleCacheResolver {
     private static final Map<Class<?>, Map<Object, Map<?, ?>>> //
     privateCache = new ConcurrentHashMap<Class<?>, Map<Object, Map<?, ?>>>();
 
-    public static <K, V> V getAsPublic(Object mapId, K key, Supplier<? extends V> s) {
-	@SuppressWarnings("unchecked")
-	var cache = (Map<K, V>) publicCache.computeIfAbsent(
+    @SuppressWarnings("unchecked")
+    private static <K, V> Map<K, V> getMap(Object mapId, K key) {
+	return (Map<K, V>) publicCache.computeIfAbsent(
 	    mapId, k -> new ConcurrentHashMap<K, V>());
+    }
+
+    public static <K, V> V getAsPublic(Object mapId, K key, Supplier<? extends V> s) {
+	Map<K, V> cache = getMap(mapId, key);
 	return cache.computeIfAbsent(key, k -> s.get());
+    }
+
+    public static <K, V> V putAsPublic(Object mapId, K key, V value) {
+	Map<K, V> cache = getMap(mapId, key);
+	return cache.putIfAbsent(key, value);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <K, V> Map<K, V> getMap(Class<?> caller, Object mapId, K key) {
+	return (Map<K, V>) privateCache
+	    .computeIfAbsent(caller, k -> new ConcurrentHashMap<Object, Map<?, ?>>())
+	    .computeIfAbsent(mapId, k -> new ConcurrentHashMap<K, V>());
     }
 
     public static <K, V> V getAsPrivate(Class<?> caller, Object mapId, K key,
 	Supplier<? extends V> s) {
-	@SuppressWarnings("unchecked")
-	var small = (Map<K, V>) privateCache
-	    .computeIfAbsent(caller, k -> new ConcurrentHashMap<Object, Map<?, ?>>())
-	    .computeIfAbsent(mapId, k -> new ConcurrentHashMap<K, V>());
+	Map<K, V> small = getMap(caller, mapId, key);
 	return small.computeIfAbsent(key, k -> s.get());
+    }
+
+    public static <K, V> V putAsPrivate(Class<?> caller, Object mapId, K key, V value) {
+	Map<K, V> small = getMap(caller, mapId, key);
+	return small.putIfAbsent(key, value);
     }
 
     public static void removeAsPublic(Object mapId, Object key) {
