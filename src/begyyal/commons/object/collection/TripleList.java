@@ -168,13 +168,13 @@ public class TripleList<V1, V2, V3> extends XList<Triple<V1, V2, V3>> {
 	    return new TripleList<V1, V2, V3>();
 	}
 
+	public static <V1, V2, V3> TripleList<V1, V2, V3> newi(int capa) {
+	    return new TripleList<V1, V2, V3>(capa, null);
+	}
+	
 	public static <V1, V2, V3> TripleList<V1, V2, V3>
 	    of(Collection<Triple<V1, V2, V3>> c) {
 	    return new TripleList<V1, V2, V3>(c);
-	}
-
-	public static <V1, V2, V3> TripleList<V1, V2, V3> of(int capa) {
-	    return new TripleList<V1, V2, V3>(capa, null);
 	}
 
 	public static <V1, V2, V3> TripleList<V1, V2, V3> of(

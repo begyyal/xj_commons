@@ -353,12 +353,12 @@ public class XList<V> extends ArrayList<V> {
 	    return new XList<V>();
 	}
 
+	public static <V> XList<V> newi(int thresholdSize) {
+	    return new XList<V>(thresholdSize, null);
+	}
+	
 	public static <V> XList<V> of(Collection<? extends V> c) {
 	    return new XList<V>(c);
-	}
-
-	public static <V> XList<V> of(int thresholdSize) {
-	    return new XList<V>(thresholdSize, null);
 	}
 
 	public static <V> XList<V>

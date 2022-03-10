@@ -177,12 +177,12 @@ public class PairList<V1, V2> extends XList<Pair<V1, V2>> {
 	    return new PairList<V1, V2>();
 	}
 
+	public static <V1, V2> PairList<V1, V2> newi(int thresholdSize) {
+	    return new PairList<V1, V2>(thresholdSize, null);
+	}
+	
 	public static <V1, V2> PairList<V1, V2> of(Collection<Pair<V1, V2>> c) {
 	    return new PairList<V1, V2>(c);
-	}
-
-	public static <V1, V2> PairList<V1, V2> of(int thresholdSize) {
-	    return new PairList<V1, V2>(thresholdSize, null);
 	}
 
 	public static <V1, V2> PairList<V1, V2> of(
