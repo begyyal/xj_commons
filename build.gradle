@@ -22,8 +22,16 @@ sourceSets {
             srcDir 'src'
         }
         resources {
-            srcDir 'resources'
+			srcDir 'resources'
+		}
+    }
+    test {
+        java {
+            srcDir 'test'
         }
+        resources {
+			srcDir 'resources'
+		}
     }
 }
 
@@ -32,6 +40,11 @@ tasks.withType(JavaCompile) {
 }
 
 delete('resources/META-INF/')
+copy {
+	from 'LICENSE'
+	into 'resources/META-INF/'
+}
+
 jar {
 	archivesBaseName = 'xj_commons'
     from configurations.compileClasspath.collect{ it.isDirectory() ? it : zipTreeByCustom(it) }
