@@ -7,5 +7,5 @@ build/
 .gradle
 .project
 
-test/
+test/src/draft/
 

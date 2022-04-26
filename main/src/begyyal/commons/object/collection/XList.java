@@ -46,18 +46,6 @@ public class XList<V> extends ArrayList<V> {
     }
 
     @Override
-    public V get(int index) {
-	return size() <= index || size() < -(index - 1) ? null
-		: index < 0 ? super.get(size() - 1 + index) : super.get(index);
-    }
-
-    @Override
-    public V remove(int index) {
-	return size() <= index || size() < -(index - 1) ? null
-		: index < 0 ? super.remove(size() - 1 + index) : super.remove(index);
-    }
-
-    @Override
     public boolean add(V v) {
 
 	if (thresholdSize == -1 || size() < thresholdSize)
@@ -159,7 +147,8 @@ public class XList<V> extends ArrayList<V> {
 	    return PairListGen.empty();
 
 	PairList<V, V2> result = PairListGen.newi();
-	for (int count = 0; count < Math.min(size(), v2.size()); count++)
+	int ul = Math.min(size(), v2.size());
+	for (int count = 0; count < ul; count++)
 	    result.add(get(count), v2.get(count));
 
 	return result;
@@ -171,7 +160,8 @@ public class XList<V> extends ArrayList<V> {
 	    return TripleListGen.empty();
 
 	TripleList<V, V2, V3> result = TripleListGen.newi();
-	for (int count = 0; count < Math.min(Math.min(size(), v2.size()), v3.size()); count++)
+	int ul = Math.min(Math.min(size(), v2.size()), v3.size());
+	for (int count = 0; count < ul; count++)
 	    result.add(get(count), v2.get(count), v3.get(count));
 
 	return result;
@@ -230,16 +220,12 @@ public class XList<V> extends ArrayList<V> {
     }
 
     public void updateThresholdSize(int size) {
-
 	if (size < 0)
 	    return;
 	thresholdSize = size;
-
 	if (size < size() && squeezeFunc != null)
-	    removeAll(IntStream.range(0, size() - size)
-		.mapToObj(i -> squeezeFunc.apply(this))
-		.collect(Collectors.toList()));
-
+	    for (int i = 0; i < size() - size; i++)
+		remove(squeezeFunc.apply(this));
 	if (size < size())
 	    subList(size, size()).clear();
     }
@@ -257,6 +243,27 @@ public class XList<V> extends ArrayList<V> {
 	    add(get(i));
 	removeRange(0, size);
 	return this;
+    }
+
+    public XList<V> distinct() {
+	int mod = 0, s = size();
+	var array = this.toArray();
+	for (int i = 0; i < s; i++)
+	    if (indexOfRange(array, array[i], 0, i) >= 0)
+		remove(i - mod++);
+	return this;
+    }
+
+    private static int indexOfRange(Object[] array, Object o, int start, int end) {
+	if (o == null) {
+	    for (int i = start; i < end; i++)
+		if (array[i] == null)
+		    return i;
+	} else
+	    for (int i = start; i < end; i++)
+		if (o.equals(array[i]))
+		    return i;
+	return -1;
     }
 
     public XList<V> createImmutableClone() {
@@ -356,7 +363,7 @@ public class XList<V> extends ArrayList<V> {
 	public static <V> XList<V> newi(int thresholdSize) {
 	    return new XList<V>(thresholdSize, null);
 	}
-	
+
 	public static <V> XList<V> of(Collection<? extends V> c) {
 	    return new XList<V>(c);
 	}

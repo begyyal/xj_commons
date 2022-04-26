@@ -2,35 +2,37 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'java-library'
 
-// repositories {
-// 	mavenCentral()
-// }
+repositories {
+ 	mavenCentral()
+}
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(15)
     }
+    modularity.inferModulePath.set(true)
 }
 
-// dependencies {
-// 	api files()
-// }
+dependencies {
+ 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
 
 sourceSets {
     main {
         java {
-            srcDir 'src'
+            srcDir 'main/src'
         }
         resources {
-			srcDir 'resources'
+			srcDir 'main/resources'
 		}
     }
     test {
         java {
-            srcDir 'test'
+            srcDir 'test/src'
         }
         resources {
-			srcDir 'resources'
+			srcDir 'test/resources'
 		}
     }
 }

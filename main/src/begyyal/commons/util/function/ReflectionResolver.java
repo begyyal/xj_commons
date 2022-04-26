@@ -1,14 +1,14 @@
 package begyyal.commons.util.function;
 
+import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import begyyal.commons.object.collection.XGen;
 import begyyal.commons.object.collection.XList;
 import begyyal.commons.object.collection.XList.XListGen;
 
@@ -82,7 +82,7 @@ public class ReflectionResolver {
 	Object instance,
 	Object[] args) throws Exception {
 
-	List<Set<Class<?>>> argsClazzCandidates = //
+	List<List<Class<?>>> argsClazzCandidates = //
 		Arrays.stream(args)
 		    .map(a -> getClassExpression(a.getClass()))
 		    .collect(Collectors.toList());
@@ -122,13 +122,13 @@ public class ReflectionResolver {
 	throw new NoSuchMethodException();
     }
 
-    public static Set<Class<?>> getClassExpression(Class<?> clazz) {
-	var set = XGen.<Class<?>>newHashSet();
-	fillClassExpression(clazz, set);
-	return set;
+    public static XList<Class<?>> getClassExpression(Class<?> clazz) {
+	var list = XListGen.<Class<?>>newi();
+	fillClassExpression(clazz, list);
+	return list.distinct();
     }
 
-    private static void fillClassExpression(Class<?> clazz, Set<Class<?>> classExpression) {
+    private static void fillClassExpression(Class<?> clazz, XList<Class<?>> classExpression) {
 	classExpression.add(clazz);
 	if (clazz.getSuperclass() != null)
 	    fillClassExpression(clazz.getSuperclass(), classExpression);
@@ -166,5 +166,11 @@ public class ReflectionResolver {
 		? s.filter(f -> clazz.isInstance(f))
 		    .map(f -> clazz.cast(f))
 		: Stream.empty();
+    }
+
+    public static boolean annotatedBy(Class<? extends Annotation> t) {
+	Objects.requireNonNull(t);
+
+	return true;
     }
 }
