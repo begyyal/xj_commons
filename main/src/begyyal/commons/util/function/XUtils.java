@@ -1,6 +1,8 @@
 package begyyal.commons.util.function;
 
 import java.util.Objects;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class XUtils {
 
@@ -27,5 +29,15 @@ public class XUtils {
 		return Objects.hashCode(v1) - Objects.hashCode(v2);
 	else
 	    return v2 == null ? 0 : 1;
+    }
+
+    public static ThreadFactory createPlainThreadFactory(String threadPrefix) {
+	return new ThreadFactory() {
+	    private final AtomicInteger threadNumber = new AtomicInteger(1);
+
+	    public Thread newThread(Runnable r) {
+		return new Thread(r, threadPrefix + "-" + threadNumber.getAndIncrement());
+	    }
+	};
     }
 }

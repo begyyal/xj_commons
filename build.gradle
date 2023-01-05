@@ -41,10 +41,10 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-delete('resources/META-INF/')
+delete('main/resources/META-INF/')
 copy {
 	from 'LICENSE'
-	into 'resources/META-INF/'
+	into 'main/resources/META-INF/'
 }
 
 jar {
@@ -69,7 +69,7 @@ FileTree zipTreeByCustom(File f){
     def pjdirLayerLength = getLayerArr(getProjectDir().toString()).length
     def metainfLayers = Arrays.copyOfRange(getLayerArr(meta.iterator().next().toString()), pjdirLayerLength, pjdirLayerLength + 5)
     def metainfRelPath = String.join('/', metainfLayers)
-    def newMetainfRelPath =  'resources/META-INF/' + keyStr
+    def newMetainfRelPath =  'main/resources/META-INF/' + keyStr
 
     copy {
         into newMetainfRelPath
