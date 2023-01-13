@@ -20,7 +20,8 @@ public enum Ccy {
     Jpy(Currency.getInstance("JPY")),
     Krw(Currency.getInstance("KRW")),
     Try(Currency.getInstance("TRY")),
-    Usd(Currency.getInstance("USD"));
+    Usd(Currency.getInstance("USD")),
+    Zar(Currency.getInstance("ZAR"));
 
     public final Currency ccy;
 
