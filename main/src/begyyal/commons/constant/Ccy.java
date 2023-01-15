@@ -19,6 +19,7 @@ public enum Ccy {
     Hkd(Currency.getInstance("HKD")),
     Jpy(Currency.getInstance("JPY")),
     Krw(Currency.getInstance("KRW")),
+    Mxn(Currency.getInstance("MXN")),
     Try(Currency.getInstance("TRY")),
     Usd(Currency.getInstance("USD")),
     Zar(Currency.getInstance("ZAR"));
