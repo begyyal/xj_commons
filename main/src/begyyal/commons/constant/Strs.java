@@ -20,4 +20,5 @@ public final class Strs {
     public static final String hat = "^";
     public static final String parenthesisStart = "(";
     public static final String parenthesisEnd = "(";
+    public static final String lineFeed = "\n";
 }

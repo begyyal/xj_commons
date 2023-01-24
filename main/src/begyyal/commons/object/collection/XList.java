@@ -22,7 +22,6 @@ public class XList<V> extends ArrayList<V> {
 
     protected int thresholdSize = -1;
     protected Function<XList<V>, V> squeezeFunc;
-    protected int focus = -1;
 
     protected XList() {
 	super();
@@ -36,7 +35,6 @@ public class XList<V> extends ArrayList<V> {
 	super(c);
 	this.thresholdSize = c.thresholdSize;
 	this.squeezeFunc = c.squeezeFunc;
-	this.focus = c.focus;
     }
 
     protected XList(int capa, Function<XList<V>, V> squeezeFunc) {
@@ -181,38 +179,6 @@ public class XList<V> extends ArrayList<V> {
 	    if (!super.contains(v))
 		return false;
 	return true;
-    }
-
-    public boolean hasNext() {
-	return size() > focus + 1;
-    }
-
-    public V next() {
-	return hasNext() ? get(++focus) : null;
-    }
-
-    public void remove() {
-	if (focus != -1)
-	    remove(focus);
-    }
-
-    public V removeAndNext() {
-	remove();
-	return focus != -1 && focus < size() ? get(focus) : null;
-    }
-
-    public void resetFocus() {
-	focus = -1;
-    }
-
-    public void setFocusIndex(int focus) {
-	if (focus < -1 || focus > size() - 1)
-	    throw new IndexOutOfBoundsException("Focus index must be between -1 and size-1.");
-	this.focus = focus;
-    }
-
-    public int getFocusIndex() {
-	return focus;
     }
 
     public boolean isFull() {
