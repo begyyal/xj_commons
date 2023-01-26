@@ -10,9 +10,16 @@ import begyyal.commons.object.Pair;
 
 public class XStrings {
 
+    // Unicode C0 characters + space
+    private static final char[] c0space = new char[33];
+    {
+	for (int i = 0; i <= 32; i++)
+	    c0space[i] = (char) i;
+    }
+
     private XStrings() {
     }
-    
+
     public static Pair<String, Integer> firstIndexOf(String str, String... targets) {
 	return Arrays.stream(targets)
 	    .filter(t -> str.indexOf(t) != -1)
@@ -22,7 +29,7 @@ public class XStrings {
     }
 
     public static void applyEachToken(String str, Consumer<String> cons) {
-	applyEachToken(str, cons, '\t', '\n', '\r', '\f');
+	applyEachToken(str, cons, c0space);
     }
 
     public static void applyEachToken(String str, Consumer<String> cons, char... cs) {
@@ -37,9 +44,14 @@ public class XStrings {
     public static boolean containsAny(String str, char... cs) {
 	Objects.requireNonNull(str);
 	var str2char = str.toCharArray();
-	for (char c : cs)
-	    if (Arrays.binarySearch(str2char, c) >= 0)
-		return true;
+	if (c0space == cs) {
+	    for (char c : str2char)
+		if (c <= 32)
+		    return true;
+	} else
+	    for (char c : cs)
+		if (Arrays.binarySearch(str2char, c) >= 0)
+		    return true;
 	return false;
     }
 
