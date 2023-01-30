@@ -86,6 +86,12 @@ public class PairList<V1, V2> extends XList<Pair<V1, V2>> {
 	    .collect(XListGen.collect());
     }
 
+    public XMap<V1, V2> toMapWithApplyingFirstValue() {
+	var map = XMapGen.<V1, V2>newi();
+	this.forEach(p -> map.compute(p.v1, (k, v) -> v == null ? p.v2 : v));
+	return map;
+    }
+
     public XMap<V1, XList<V2>> toMap() {
 	var map = XMapGen.<V1, XList<V2>>newi();
 	this.forEach(p -> map.compute(p.v1,
@@ -180,7 +186,7 @@ public class PairList<V1, V2> extends XList<Pair<V1, V2>> {
 	public static <V1, V2> PairList<V1, V2> newi(int thresholdSize) {
 	    return new PairList<V1, V2>(thresholdSize, null);
 	}
-	
+
 	public static <V1, V2> PairList<V1, V2> of(Collection<Pair<V1, V2>> c) {
 	    return new PairList<V1, V2>(c);
 	}

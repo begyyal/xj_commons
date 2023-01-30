@@ -1,10 +1,8 @@
 package begyyal.commons.util.function;
 
-import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -166,11 +164,5 @@ public class ReflectionResolver {
 		? s.filter(f -> clazz.isInstance(f))
 		    .map(f -> clazz.cast(f))
 		: Stream.empty();
-    }
-
-    public static boolean annotatedBy(Class<? extends Annotation> t) {
-	Objects.requireNonNull(t);
-
-	return true;
     }
 }

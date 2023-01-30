@@ -20,10 +20,24 @@ public class XStrings {
     private XStrings() {
     }
 
+    public static Pair<Integer, Integer> firstIndexOf(String str, int... targets) {
+	return Arrays.stream(targets)
+	    .mapToObj(t -> {
+		int i = str.indexOf(t);
+		return i != -1 ? Pair.of(t, i) : null;
+	    })
+	    .filter(p -> p != null)
+	    .sorted(Comparator.comparing(p -> p.v2))
+	    .findFirst().orElse(null);
+    }
+
     public static Pair<String, Integer> firstIndexOf(String str, String... targets) {
 	return Arrays.stream(targets)
-	    .filter(t -> str.indexOf(t) != -1)
-	    .map(t -> Pair.of(t, str.indexOf(t)))
+	    .map(t -> {
+		int i = str.indexOf(t);
+		return i != -1 ? Pair.of(t, i) : null;
+	    })
+	    .filter(p -> p != null)
 	    .sorted(Comparator.comparing(p -> p.v2))
 	    .findFirst().orElse(null);
     }
