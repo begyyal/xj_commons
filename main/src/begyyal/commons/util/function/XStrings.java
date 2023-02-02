@@ -20,6 +20,14 @@ public class XStrings {
     private XStrings() {
     }
 
+    public static int countAppearance(String str, char c) {
+	int count = 0;
+	for (char c2 : str.toCharArray())
+	    if (c2 == c)
+		count++;
+	return count;
+    }
+
     public static Pair<Integer, Integer> firstIndexOf(String str, int... targets) {
 	return Arrays.stream(targets)
 	    .mapToObj(t -> {
