@@ -1,9 +1,9 @@
 package begyyal.commons.object;
 
+import begyyal.commons.constant.Strs;
 import begyyal.commons.util.function.XMath;
 
-// javaのバージョンを上げたらrecordにする
-public class Vector {
+public class Vector implements Comparable<Vector> {
 
     public final int x;
     public final int y;
@@ -52,5 +52,21 @@ public class Vector {
     @Override
     public int hashCode() {
 	return (31 + this.x) * 31 + this.y;
+    }
+
+    @Override
+    public int compareTo(Vector o) {
+	int result;
+	if (o == null)
+	    return -1;
+	else if ((result = this.x * this.x + this.y * this.y - o.x * o.x - o.y * o.y) == 0)
+	    if ((result = o.y - this.y) == 0)
+		result = o.x - this.x;
+	return result;
+    }
+
+    @Override
+    public String toString() {
+	return this.x + Strs.colon + this.y;
     }
 }

@@ -88,7 +88,10 @@ public class PairList<V1, V2> extends XList<Pair<V1, V2>> {
 
     public XMap<V1, V2> toMapWithApplyingFirstValue() {
 	var map = XMapGen.<V1, V2>newi();
-	this.forEach(p -> map.compute(p.v1, (k, v) -> v == null ? p.v2 : v));
+	this.forEach(p -> { // should not compute due to nullable of value
+	    if (map.get(p.v1) == null)
+		map.put(p.v1, p.v2);
+	});
 	return map;
     }
 
